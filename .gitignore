@@ -1,10 +1,26 @@
 # Python
-venv/
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.ipynb_checkpoints/
+*.py[cod]
+*$py.class
+.Python
+.env
+.venv
+venv/
+ENV/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Project specific
+data/processed/analysis_logs/
+*.csv
+*.json
+!data/processed/address_variants/*.json
+
+# Security
+.env
+*.key
 
 # OS/Editor
 .DS_Store
@@ -24,3 +40,19 @@ Thumbs.db
 *~
 
 .devcontainer/devcontainer.json
+# === CLEANUP ADDITIONS ===
+# Virtual environments
+venv311/
+# Cache and temporary files
+cache/
+*.session
+*.log
+# System files
+# Python cache
+# IDE files
+.vscode/settings.json
+.idea/
+# Large data files
+data/raw/downloaded_pdfs/*.pdf
+*.gpkg
+asset_database_full.csv

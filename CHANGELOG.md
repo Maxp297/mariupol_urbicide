@@ -8,6 +8,8 @@
 - Directory-specific README files
 - File movement logging with SHA-256 validation
 - Claude API integration for analysis
+- QGIS template directory structure
+- Template documentation with forensic requirements
 
 ### Changed
 - Reorganized code into src/ directory structure

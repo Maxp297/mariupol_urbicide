@@ -1,196 +1,241 @@
-# Mariupol Administrative Violence Documentation Project
+# Mariupol Urbicide: Administrative Violence Documentation Pipeline
 
-## Self-Reported Urbicide: How Occupiers Document Their Own War Crimes
+![Version](https://img.shields.io/badge/version-0.2.0-blue)
+![Python](https://img.shields.io/badge/python-3.9+-green)
+![Status](https://img.shields.io/badge/status-active-brightgreen)
+![Forensics](https://img.shields.io/badge/type-forensic_evidence-red)
 
-In an unprecedented documentation effort, this project tracks how Russian occupation authorities in Mariupol systematically record their own property seizures and demolitions - creating a comprehensive digital paper trail of administrative violence that continues long after the siege ended.
+## 🎯 Project Overview
 
-**The Innovation**: While most war crimes investigations struggle to find evidence, Russian bureaucrats are methodically publishing thousands of property seizure orders, demolition decrees, and redistribution documents on official websites. We've built an automated pipeline to collect, verify, and map this self-incriminating evidence according to international legal standards.
+**Self-Documented War Crimes: How Occupiers Create Their Own Evidence**
 
-## The Problem: Lawfare After Kinetic Warfare
+This project demonstrates an unprecedented phenomenon in war crimes documentation: Russian occupation authorities in Mariupol systematically publish their own property seizures, demolitions, and redistributions on official websites, creating a comprehensive digital paper trail of administrative violence.
 
-The destruction of Mariupol didn't end with military surrender. Russian authorities now deploy **administrative violence** - using legal procedures and bureaucratic processes as weapons to permanently dispossess Ukrainian survivors. Our investigation reveals two distinct pathways:
+**The Innovation**: While most war crimes investigations struggle to find evidence, we've built an automated forensic pipeline to collect, verify, and map this self-incriminating bureaucratic evidence according to international legal standards.
 
-### Path 1: Strategic Demolition (Nakhimova 82 Case)
-A damaged but structurally intact 3-story building was mysteriously demolished in late 2022 without explanation. A year later, luxury condos appeared on the same spot - but with a completely different address (Chernomorsky Lane 1B instead of Nakhimova Avenue 82). Original residents cannot prove ownership when the address itself has been erased from existence.
+### Core Philosophy: The Bureaucratic Paradox
 
-### Path 2: Mass Clearance (Left Bank Quarter)
-An entire dense residential neighborhood between Azovstal'ska and Morskoy Boulevard - home to thousands - was bulldozed to empty ground after sustaining damage. The area remains vacant, with no reconstruction plans for displaced residents.
-
-**Both pathways achieve the same goal**: permanent dispossession through administrative manipulation while maintaining a veneer of legal process.
-
-## Methodology: AI-Powered Investigation with Legal-Grade Standards
-
-### The Research Brain: Claude Opus 4.0
-Strategic research, pattern recognition, and complex analysis of international law precedents, funding opportunities, and methodological frameworks. Claude handles the big-picture synthesis that would take weeks of manual research.
-
-### The Development Brain: Windsurf + ChatGPT 4.1
-Granular debugging, code optimization, and technical problem-solving. This combination eliminates the cyclical debugging issues that plague complex geospatial projects while maintaining rapid development velocity.
-
-### The Evidence Pipeline: Python + Docker + PostgreSQL
-```
-Russian Official Websites → PyMuPDF/OCR → Address Extraction → 
-Geospatial Matching → PostgreSQL Database → QGIS Visualization → 
-Legal Documentation → Audit Trail Generation
-```
-
-**Core Technical Components:**
-- **PyMuPDF + Tesseract**: Extract text from Russian-language property seizure PDFs
-- **RapidFuzz**: 350x faster address matching for conflict zone data
-- **PostgreSQL/PostGIS**: Spatial database for correlating addresses with satellite imagery
-- **QGIS**: Professional cartographic visualization for legal presentations
-- **Berkeley Protocol Compliance**: Every document cryptographically hashed and audit-trailed
-
-### Data Sources Integration
-- **Official occupation websites** (doc.dnronline.su, ginspadnr.ru): Source of self-incriminating evidence
-- **UNOSAT damage datasets**: Authoritative building destruction verification
-- **OpenStreetMap historical data**: Pre-war baseline for address validation
-- **Sentinel-2 satellite imagery**: Zero-cost temporal analysis for construction monitoring
-
-## Administrative Pathways: Visual Documentation
-
-The following flowchart illustrates the two distinct pathways through which Russian occupation authorities systematically dispossess Ukrainian property owners while maintaining documentary evidence of their crimes:
-
-```
-ADMINISTRATIVE PATHWAYS OF PROPERTY DISPOSSESSION IN OCCUPIED MARIUPOL
-═══════════════════════════════════════════════════════════════════════
-
-             ┌─────────────────────────────────┐
-             │   Damaged or Destroyed Building │
-             │         (Post-Invasion)         │
-             └────────────────┬────────────────┘
-                              │
-             ┌────────────────▼────────────────┐
-             │  Administrative Assessment by   │
-             │     Occupation Authorities      │
-             └────────────────┬────────────────┘
-                              │
-           ┌──────────────────┴──────────────────┐
-           │                                     │
-PATH 1: SELECTIVE DEMOLITION          PATH 2: MASS CLEARANCE
-(Nakhimova 82 Case)                   (Left Bank Quarter Case)
-           │                                     │
-┌──────────▼───────────┐             ┌───────────▼───────────┐
-│ Damaged but intact   │             │ Dense residential     │
-│ 3-story building     │             │ neighborhood with     │
-│                      │             │ ~30 apartment blocks  │
-└──────────┬───────────┘             └───────────┬───────────┘
-           │                                     │
-┌──────────▼───────────┐             ┌───────────▼───────────┐
-│ Demolition decree    │             │ Systematic clearing   │
-│ issued without       │             │ operations begin      │
-│ explanation          │             │                       │
-└──────────┬───────────┘             └───────────┬───────────┘
-           │                                     │
-┌──────────▼───────────┐             ┌───────────▼───────────┐
-│ Building demolished  │             │ Complete bulldozing   │
-│ (late 2022)          │             │ of all structures     │
-│                      │             │                       │
-└──────────┬───────────┘             └───────────┬───────────┘
-           │                                     │
-┌──────────▼───────────┐             ┌───────────▼───────────┐
-│ New luxury condos    │             │ Area remains empty    │
-│ built on same spot   │             │ cleared lot with      │
-│                      │             │ no reconstruction     │
-└──────────┬───────────┘             └───────────┬───────────┘
-           │                                     │
-┌──────────▼───────────┐             ┌───────────▼───────────┐
-│ NEW ADDRESS:         │             │ MASS DISPLACEMENT:    │
-│ Chernomorsky Lane 1B │             │ Hundreds of families  │
-│ (not Nakhimova 82)   │             │ permanently displaced │
-└──────────┬───────────┘             └───────────┬───────────┘
-           │                                     │
-           └──────────────────┬──────────────────┘
-                              │
-             ┌────────────────▼────────────────┐
-             │          COMMON RESULT:         │
-             │                                 │
-             │   Original residents lose all   │
-             │     property claims through     │
-             │   administrative manipulation   │
-             └─────────────────────────────────┘
-
-KEY DISTINCTIONS:
-─────────────────
-PATH 1: Individual building → Strategic demolition → Premium redevelopment → Address change
-PATH 2: Entire neighborhood → Mass destruction → Land banking → No reconstruction
-
-LEGAL IMPLICATIONS:
-──────────────────
-• Both pathways constitute PILLAGE under Rome Statute Article 8(2)(b)(xvi)
-• Both create systematic barriers to property restitution
-• Both generate self-incriminating documentary evidence via official decrees
-• Both demonstrate ADMINISTRATIVE VIOLENCE as continuation of kinetic warfare
-
-EVIDENCE TRAIL:
-──────────────
-Each pathway generates traceable documentation on official occupation websites:
-- Demolition orders with specific addresses and dates
-- Property seizure notices with legal justifications  
-- Construction permits showing new developments
-- Address reassignment records severing legal continuity
-```
-
-## Key Findings: Systematic Documentation of Systematic Crimes
-
-**Scale**: Over 12.000 documented property seizures with complete paper trails leading to specific Russian officials who signed each order.
-
-**Geographic Patterns**: Premium locations (sea views, central districts) systematically targeted, suggesting economic rather than security motivations.
-
-**Legal Innovation**: Each red dot on our maps corresponds to a specific war crime with a specific perpetrator - creating unprecedented command responsibility documentation.
-
-**Temporal Evidence**: Multi-year timeline showing administrative violence continuing long after military operations, demonstrating systematic rather than opportunistic behavior.
-
-## The Bureaucratic Paradox
-
-The most fascinating aspect: **Russian authorities cannot stop documenting their crimes**. Bureaucratic systems require documentation to function, but this same documentation becomes the evidence for war crimes prosecution. From Nazi Holocaust records to contemporary digital surveillance, perpetrators consistently create comprehensive paper trails of their own atrocities.
-
-This compulsion to document - what we call "administrative confabulation" - provides investigators with unprecedented evidence quality while revealing the psychological and structural forces that enable systematic violence through routine bureaucratic processes.
-
-## Technical Innovation: Conflict-Zone Geocoding
-
-Traditional geocoding fails in conflict zones where street names change, buildings are destroyed, and competing authorities maintain different address systems. Our solution:
-
-- **Dual-temporal address databases**: Tracking both Ukrainian and Russian naming systems
-- **Fuzzy matching algorithms**: Handling transliteration variations and systematic renaming
-- **Confidence scoring**: Legal-grade validation for evidence admissibility
-- **Memory-efficient processing**: Handling multi-gigabyte datasets on consumer hardware
-
-## Scalability and Impact
-
-**Immediate Applications:**
-- International Criminal Court evidence submission
-- Asset recovery for post-conflict reconstruction
-- Documentation for 12+ other occupied Ukrainian cities
-- Template for similar conflicts globally
-
-**Methodological Contributions:**
-- First automated pipeline for self-incriminating evidence collection
-- Berkeley Protocol-compliant digital forensics for OSINT investigations  
-- Address harmonization solutions for conflict zones
-- Integration framework for AI-assisted legal documentation
-
-## Future Development
-
-**Technical Expansion:**
-- Machine learning for automated property seizure detection
-- Real-time monitoring of new seizure orders as they're published
-- Integration with international sanctions databases
-
-**Geographic Scaling:**
-- Deployment across all Russian-occupied Ukrainian territories
-- Adaptation for other conflict zones with similar administrative violence patterns
-- Training materials for international human rights organizations
-
-## Why This Matters
-
-This project demonstrates how modern technology can pierce the veil of administrative violence that traditionally conceals systematic war crimes. By combining AI-assisted research, automated evidence collection, and legal-grade documentation standards, we're creating new accountability mechanisms for the digital age.
-
-The methodology proves that perpetrators' own bureaucratic compulsions can become their greatest vulnerability - transforming the very systems they use to commit crimes into the instruments of their prosecution.
-
-**The result**: An unprecedented database of war crimes evidence, collected in real-time as perpetrators document their own violations of international law.
+Administrative systems both enable atrocity and generate evidence (Arendt, Derrida, Bauman). Our methodology treats metadata as systemic evidence of administrative violence, applying critical theory to interpret digital administrative archives as counter-forensic evidence.
 
 ---
 
-*This project operates entirely with open-source tools and public data sources, ensuring reproducibility and enabling replication across other conflict zones. All evidence collection meets Berkeley Protocol standards for international legal proceedings.*
+## 🚀 Quick Start
 
-**For further inquiries or collaboration, please contact Alexey Kovalev at kovalever@gmail.com**
+### Prerequisites
+- Python 3.9+
+- Git LFS (for large datasets)
+- QGIS (optional, for geospatial analysis)
+
+### Installation
+```bash
+# Clone repository
+git clone https://github.com/Amethyst-Deceiver2001/mariupol_urbicide.git
+cd mariupol_urbicide
+
+# Setup virtual environment
+python3 -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your PROJECT_ROOT and API keys
+```
+
+### Basic Usage
+```bash
+# Run forensic analysis on a single PDF
+python analysis/extract_structured_from_pdf.py data/raw/downloaded_pdfs/example.pdf
+
+# Generate comprehensive address enrichment
+python analysis/enrich_addresses.py
+
+# Create evidence report for specific address
+python scripts/generate_morskoy46_pdf_report.py
+```
+
+---
+
+## 📁 Project Structure
+
+```
+mariupol_urbicide/
+├── 📂 data/                           # Evidence datasets (Git LFS)
+│   ├── raw/downloaded_pdfs/           # 415+ occupation administration PDFs
+│   ├── processed/                     # Cleaned, normalized datasets
+│   │   ├── Morskoy46/                # Focused case study (299 files)
+│   │   ├── seized_properties_combined.csv    # Master seizure database
+│   │   └── damage_assessment_clean_en.csv    # Russian damage assessments
+│   └── interim/                       # Temporary processing files
+│
+├── 📂 analysis/                       # Core forensic analysis (48 scripts)
+│   ├── crawl_mariupol_pdfs.py        # Automated evidence collection
+│   ├── extract_structured_from_pdf.py # Document parsing & extraction
+│   ├── forensic_dissection_and_crossref.py # Cross-reference analysis
+│   └── enrich_addresses.py           # Address normalization & enrichment
+│
+├── 📂 scripts/                        # Utilities & reporting
+│   ├── build_asset_database.py       # Evidence catalog management
+│   ├── generate_address_variants.py   # Address normalization
+│   └── generate_morskoy46_pdf_report.py # Case study reporting
+│
+├── 📂 src/                           # Core implementation modules
+│   ├── forensics/                    # Evidence chain validation
+│   ├── processing/                   # Data processing pipelines
+│   └── analysis/                     # Analysis frameworks
+│
+├── 📂 qgis/                          # Geospatial analysis & mapping
+├── 📂 tests/                         # Test suite
+├── 📂 docs/                          # Documentation
+└── 📂 .vscode/                       # VSCode configuration (AI-ready)
+```
+
+---
+
+## 🔬 Core Capabilities
+
+### 1. **Automated Evidence Collection**
+- **PDF Scraping**: Crawls official Mariupol administration websites
+- **Document Parsing**: Extracts structured data from scanned/text PDFs
+- **Metadata Preservation**: SHA-256 hashing, timestamps, source attribution
+- **Deduplication**: Prevents evidence loss from filename collisions
+
+### 2. **Forensic Analysis Pipeline**
+- **Address Normalization**: Handles Cyrillic/Latin variants, OCR errors
+- **Cross-Reference Matching**: Links seizures across multiple datasets
+- **Actor Network Analysis**: Tracks officials, contractors, responsibility chains
+- **Temporal Analysis**: Timeline reconstruction of administrative actions
+
+### 3. **Evidence Integration**
+- **Multi-Source Fusion**: PDFs, Telegram media, satellite imagery, OSM data
+- **Geospatial Mapping**: QGIS integration for evidence visualization
+- **Legal Documentation**: International law-compliant evidence chains
+- **Public Reporting**: Automated PDF/web report generation
+
+### 4. **Case Study: Morskoy 46**
+- **Complete Evidence Package**: 299 files documenting single building
+- **Apartment-Level Tracking**: 216 apartments, entrance mapping
+- **Multi-Modal Evidence**: Documents, images, geospatial data
+- **ML-Ready Dataset**: Curated for automated image classification
+
+---
+
+## 📊 Key Datasets
+
+| Dataset | Size | Description | Status |
+|---------|------|-------------|---------|
+| `seized_properties_combined.csv` | 2.9MB | Master database of all seized properties | ✅ Complete |
+| `damage_assessment_clean_en.csv` | 771KB | Russian occupation damage assessments | ✅ Complete |
+| `pdf_metadata.csv` | 83KB | Metadata for 415+ official documents | ✅ Complete |
+| `actor_roles_nominative.csv` | 11KB | Officials and contractors network | ✅ Complete |
+| `asset_database_full.csv` | 7.2MB | Complete evidence catalog | ✅ Complete |
+
+---
+
+## 🛠️ Development
+
+### VSCode Integration
+The project is optimized for VSCode with AI assistance:
+- **Auto-configured**: `.vscode/settings.json` and `launch.json` included
+- **Python Environment**: Automatic `.venv` detection
+- **Debugging Presets**: Forensic analysis configurations
+- **Extension Recommendations**: Python, Jupyter, Git integration
+
+### Code Quality
+- **Forensic Standards**: SHA-256 validation for all file operations
+- **Evidence Chain**: Complete source attribution and timestamps
+- **Reproducibility**: Environment variables, containerization support
+- **Testing**: Comprehensive test suite for data integrity
+
+### Contributing
+1. Fork the repository
+2. Create feature branch: `git checkout -b feature/analysis-enhancement`
+3. Follow forensic coding standards (see `CLAUDE_CODE_GUIDELINES.md`)
+4. Add tests for new functionality
+5. Submit pull request with evidence validation
+
+---
+
+## 📈 Current Status & Roadmap
+
+### ✅ **Completed (v0.2.0)**
+- **Codebase Optimization**: 243MB cleanup, VSCode migration
+- **Evidence Pipeline**: 415+ PDFs processed, 683 unique addresses extracted
+- **Morskoy 46 Case Study**: Complete evidence package assembled
+- **Forensic Infrastructure**: SHA-256 validation, metadata preservation
+- **Cross-Reference System**: Multi-dataset linkage and enrichment
+
+### 🔄 **In Progress**
+- **ML Image Classification**: Automated Telegram media sorting
+- **Web Interface**: Public evidence browser and mapping tool
+- **Legal Documentation**: International court-ready evidence packages
+- **Temporal Analysis**: Administrative action timeline reconstruction
+
+### 🎯 **Next Priorities**
+- **Neighborhood Expansion**: Morskoy 40-48 complete evidence collection
+- **Actor Network Analysis**: Official responsibility mapping
+- **Financial Flow Tracking**: Budget and contractor analysis
+- **Public Presentation**: Interactive evidence maps and reports
+
+---
+
+## 📚 Documentation
+
+- **[VSCode Handover Report](VSCODE_HANDOVER_REPORT.md)**: Development environment setup
+- **[Claude Code Guidelines](CLAUDE_CODE_GUIDELINES.md)**: Forensic coding standards
+- **[Changelog](CHANGELOG.md)**: Version history and updates
+- **[Forensic Evidence Pipeline](report_forensic_evidence_pipeline.md)**: Methodology overview
+
+---
+
+## 🔒 Legal & Ethical Framework
+
+### Evidence Standards
+- **Chain of Custody**: Complete source attribution and timestamps
+- **Data Integrity**: SHA-256 validation for all evidence files
+- **Reproducibility**: Environment variables and containerization
+- **Legal Compliance**: International humanitarian law standards
+
+### Ethical Considerations
+- **Public Interest**: Evidence of systematic war crimes
+- **Source Protection**: No personal data of victims exposed
+- **Academic Standards**: Peer-reviewable methodology
+- **Open Source**: Transparent, auditable evidence collection
+
+---
+
+## 🤝 Collaboration
+
+### Academic Partners
+- **Critical Theory**: Foucault, Mbembe, Weizman frameworks
+- **Digital Forensics**: Counter-forensic methodology development
+- **International Law**: War crimes documentation standards
+- **Geospatial Analysis**: Satellite imagery and damage assessment
+
+### Technical Integration
+- **APIs**: Google Maps, OpenStreetMap, Telegram
+- **Databases**: PostgreSQL with PostGIS extensions
+- **ML Frameworks**: CLIP, computer vision for image classification
+- **Visualization**: QGIS, web mapping, interactive reports
+
+---
+
+## 📞 Contact & Support
+
+**Repository**: https://github.com/Amethyst-Deceiver2001/mariupol_urbicide
+
+**Issues**: Use GitHub Issues for bug reports and feature requests
+
+**Documentation**: See `docs/` directory for detailed guides
+
+**Citation**: If using this work academically, please cite the repository and methodology papers
+
+---
+
+## 📄 License
+
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
+
+**Note**: This is forensic evidence of war crimes. All data collection and analysis follows international humanitarian law and academic research standards.

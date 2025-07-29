@@ -156,4 +156,4 @@ data/interim/
 !.devcontainer/Dockerfile
 !.github/workflows/*.yml
 !docker-compose.yml
-!Makefile
+!Makefile.python-version

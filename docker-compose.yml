@@ -1,0 +1,144 @@
+version: '3.8'
+
+# Logging configuration for all services
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  # PostgreSQL database with PostGIS
+  forensic-db:
+    image: postgis/postgis:15-3.3
+    container_name: mariupol-forensic-db
+    environment:
+      POSTGRES_DB: mariupol_forensic_toponyms
+      POSTGRES_USER: forensic
+      POSTGRES_PASSWORD: forensic_secure_2024
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - forensic_db_data:/var/lib/postgresql/data
+      - ./scripts/create_toponymic_database.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./data:/app/data:ro
+    ports:
+      - "5432:5432"
+    networks:
+      - forensic-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U forensic -d mariupol_forensic_toponyms"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    logging: *default-logging
+    command: ["postgres"]
+
+  # Forensic Analytics Platform
+  forensic-analytics:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: mariupol-forensic-analytics
+    depends_on:
+      forensic-db:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: forensic-db
+      POSTGRES_DB: mariupol_forensic_toponyms
+      POSTGRES_USER: forensic
+      POSTGRES_PASSWORD: forensic_secure_2024
+      PROJECT_ROOT: /app
+      PYTHONPATH: /app
+    volumes:
+      - ./data:/app/data:ro
+      - ./analysis:/app/analysis
+      - ./output:/app/output
+      - ./scripts:/app/scripts:ro
+      - forensic_notebooks:/app/notebooks
+      - forensic_logs:/app/logs
+    ports:
+      - "8888:8888"  # JupyterLab
+      - "8501:8501"  # Streamlit Dashboard
+    networks:
+      - forensic-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8888 || curl -f http://localhost:8501 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+    restart: unless-stopped
+    logging: *default-logging
+    command: ["/app/start-forensic-platform.sh", "both"]
+
+  # Optional: Streamlit-only service for dashboard-focused deployment
+  forensic-dashboard:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: mariupol-forensic-dashboard
+    depends_on:
+      forensic-db:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: forensic-db
+      POSTGRES_DB: mariupol_forensic_toponyms
+      POSTGRES_USER: forensic
+      POSTGRES_PASSWORD: forensic_secure_2024
+      PROJECT_ROOT: /app
+      PYTHONPATH: /app
+    volumes:
+      - ./data:/app/data:ro
+      - ./analysis:/app/analysis
+      - ./output:/app/output
+      - ./scripts:/app/scripts:ro
+      - forensic_logs:/app/logs
+    ports:
+      - "8502:8501"  # Alternative port for dashboard-only
+    networks:
+      - forensic-network
+    profiles:
+      - dashboard-only
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501"]
+      interval: 30s
+      timeout: 10s
+      start_period: 60s
+      retries: 3
+    restart: unless-stopped
+    logging: *default-logging
+    command: ["/app/start-forensic-platform.sh", "streamlit"]
+
+  # Nginx reverse proxy for unified access
+  forensic-proxy:
+    image: nginx:alpine
+    container_name: mariupol-forensic-proxy
+    depends_on:
+      - forensic-analytics
+      - forensic-dashboard
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - forensic-network
+    restart: unless-stopped
+    logging: *default-logging
+
+networks:
+  forensic-network:
+    driver: bridge
+    name: mariupol-forensic-network
+
+volumes:
+  forensic_db_data:
+    name: mariupol-forensic-db-data
+    driver: local
+  forensic_notebooks:
+    name: mariupol-forensic-notebooks
+    driver: local
+  forensic_logs:
+    name: mariupol-forensic-logs
+    driver: local

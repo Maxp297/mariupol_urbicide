@@ -1,0 +1,25 @@
+# YouTube Video Log
+
+# --- Core Metadata ---
+video_id: ""          # YouTube's unique video ID (e.g., gNz0NtVHqtE)
+url: ""               # Full video URL
+title: ""             # Official video title
+channel_name: ""      # Name of the publishing channel
+channel_url: ""       # URL of the channel
+upload_date: ""       # YYYY-MM-DD format
+retrieval_date: ""    # YYYY-MM-DD format of when you logged this
+retrieved_by: ""      # Your name/initials for chain of custody
+
+# --- Content Analysis ---
+summary: |
+  (A multi-line summary of the video's key points, observations, and relevant content.
+  Focus on visual evidence, spoken claims, and locations shown.)
+
+relevance_to_project: |
+  (Explain why this video is important for the project. e.g., "Shows demolition at address X,"
+  "Documents official Y making a statement," "Contradicts official narrative Z.")
+
+# --- Forensic Data (Optional but Recommended) ---
+downloaded_file_path: "" # Relative path if you archive the video locally
+file_sha256: ""          # SHA-256 hash of the downloaded video file
+transcript_file_path: "" # Relative path to the saved transcript

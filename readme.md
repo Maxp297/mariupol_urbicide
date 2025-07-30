@@ -89,19 +89,23 @@ Automated reports
 🤝 Support & Contact
 For inquiries and partnership opportunities, please contact: kovalever@gmail.com
 
-Support Our Work
+### Support Our Work
+
 Your contributions help sustain this important work:
 
-PayPal Donations: kovalever@googlemail.com
-U.S. Tax-Deductible Donations through Building Democracy Foundation (501c3):
-Donate via PayPal Giving Fund
-In-Kind Donations
+- **PayPal Donations:** kovalever@googlemail.com
+- **U.S. Tax-Deductible Donations** through Building Democracy Foundation (501c3):  
+  [Donate via PayPal Giving Fund](https://www.paypal.com/donate/?hosted_button_id=TQ6VZ7CFSHTHW) or directly to igors@buildingdemocracy.foundation
+
+#### In-Kind Donations
+
 We also welcome:
 
-Equipment donations
-Pro subscriptions for development tools
-Computational tokens and cloud credits
-Other professional services
+- Equipment donations
+- Pro subscriptions for development tools
+- Computational tokens and cloud credits
+- Other professional services
+
 Your support helps us continue documenting these critical human rights violations.
 
 📄 License

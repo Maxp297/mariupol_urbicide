@@ -21,36 +21,46 @@ Administrative systems both enable atrocity and generate evidence (Arendt, Derri
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Docker 20.10+ and Docker Compose 2.0+
 - Git LFS (for large datasets)
 - 8GB+ RAM recommended
 
-### Docker Deployment (Recommended)
+### 🐳Docker Deployment (Recommended)
 
 ```bash
 # Clone repository
-git clone [https://github.com/Amethyst-Deceiver2001/mariupol_urbicide.git](https://github.com/Amethyst-Deceiver2001/mariupol_urbicide.git)
+git clone https://github.com/Amethyst-Deceiver2001/mariupol_urbicide.git
 cd mariupol_urbicide
 
 # Deploy the platform
-./deploy-forensic-platform.sh
+./deploy-forensic-platform.sh # ./deploy-forensic-platform.ps1 for Windows
 
 # Access services:
 # - JupyterLab: http://localhost:8888 (token: forensic_analysis_2024)
 # - Streamlit Dashboard: http://localhost:8501
-Manual Installation (Development)
-bash
+```
+
+### Manual Installation (Development)
+
+```bash
 python3 -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-🐳 Docker Deployment Guide
-Service Architecture
-PostgreSQL/PostGIS: Forensic database with temporal tracking
-JupyterLab: Interactive analysis
-Streamlit: Evidence visualization
-Nginx: Reverse proxy
-Management Commands
-bash
+```
+
+### Service Architecture
+
+| Service      | Description                                 |
+|--------------|---------------------------------------------|
+| PostgreSQL/PostGIS | Forensic database with temporal tracking |
+| JupyterLab   | Interactive analysis                        |
+| Streamlit    | Evidence visualization                      |
+| Nginx        | Reverse proxy                              |
+
+### Management Commands
+
+```bash
 # Start services
 ./deploy-forensic-platform.sh start
 
@@ -59,34 +69,54 @@ bash
 
 # View logs
 ./deploy-forensic-platform.sh logs
-Data Persistence
-Database: Docker volume mariupol-forensic-db-data
-Notebooks: Docker volume mariupol-forensic-notebooks
-Logs: Docker volume mariupol-forensic-logs
-📁 Project Structure
-mariupol_urbicide/
-├── 📂 data/                           # Evidence datasets
+```
+
+### Data Persistence
+
+| Resource   | Storage Location (Docker volume) |
+|------------|----------------------------------|
+| Database   | `mariupol-forensic-db-data`      |
+| Notebooks  | `mariupol-forensic-notebooks`    |
+| Logs       | `mariupol-forensic-logs`         |
+
+### 📁 Project Structure
+
+```
+mariupol_urbicide/  
 ├── 📂 analysis/                       # Forensic analysis
-├── 📂 scripts/                        # Utilities & reporting
-├── 📂 src/                            # Core library
+├── 📂 config/                         # Configuration files
+├── 📂 data/                           # Evidence datasets
 ├── 📂 docker/                         # Container configs
+├── 📂 docs/                           # Documentation
+├── 📂 logs/                           # System logs
 ├── 📂 notebooks/                      # Jupyter notebooks
-├── 📂 output/                         # Reports
-└── 📂 logs/                           # System logs
-🔍 Core Features
+├── 📂 output/                         # Reports  
+├── 📂 qgis/                           # QGIS project files  
+├── 📂 scripts/                        # Utilities & reporting  
+├── 📂 src/                            # Core library  
+├── 📂 templates/                      # HTML/report templates  
+├── 📂 tests/                          # Unit and integration tests  
+├── 📂 tools/                          # CLI and helper tools  
+├── 📂 utils/                          # Utility modules  
+```
+
+### 🔍 Core Features
+
 1. Automated Evidence Collection
-Web scraping of occupation sites
-PDF extraction and analysis
-Chain-of-custody documentation
+   - Web scraping of occupation sites
+   - PDF extraction and analysis
+   - Chain-of-custody documentation
 2. Forensic Analysis
-Address normalization
-Temporal analysis
-Cross-document linking
+   - Address normalization
+   - Temporal analysis
+   - Cross-document linking
 3. Visualization & Reporting
-Interactive maps
-Timeline visualization
-Automated reports
-🤝 Support & Contact
+   - Interactive maps
+   - Timeline visualization
+   - Automated reports
+
+### 🤝 Support & Contact
+
 For inquiries and partnership opportunities, please contact: kovalever@gmail.com
 
 ### Support Our Work
@@ -108,7 +138,8 @@ We also welcome:
 
 Your support helps us continue documenting these critical human rights violations.
 
-📄 License
-GNU General Public License v3.0 - See LICENSE
+### 📄 License
 
-Note: This is forensic evidence of war crimes. All data collection follows international humanitarian law.
+GNU General Public License v3.0 - See [LICENSE](./LICENSE)
+
+**Note**: This is forensic evidence of war crimes. All data collection follows international humanitarian law.

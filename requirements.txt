@@ -6,7 +6,7 @@ osmium
 rapidfuzz
 googlemaps
 transliterate
-postal
+# postal
 diagrams
 psycopg2
 pdfplumber

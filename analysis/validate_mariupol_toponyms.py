@@ -1,21 +1,17 @@
 import os
 import psycopg2
 from dotenv import load_dotenv
+from config import db_config
 
 # Load environment variables
 load_dotenv()
-DB_HOST = os.getenv('DB_HOST', 'localhost')
-DB_PORT = os.getenv('DB_PORT', '5432')
-DB_NAME = os.getenv('DB_NAME', 'mariupol_mission_critical')
-DB_USER = os.getenv('DB_USER', 'mariupol_researcher')
-DB_PASSWORD = os.getenv('DB_PASSWORD')
 
 conn = psycopg2.connect(
-    host=DB_HOST,
-    port=DB_PORT,
-    dbname=DB_NAME,
-    user=DB_USER,
-    password=DB_PASSWORD
+    host=db_config['host'],
+    port=db_config['port'],
+    dbname=db_config['database'],
+    user=db_config['user'],
+    password=db_config['password']
 )
 cur = conn.cursor()
 

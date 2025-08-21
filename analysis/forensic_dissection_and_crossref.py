@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from fuzzywuzzy import fuzz, process
+from rapidfuzz import fuzz, process
 
 # Load core dataset
 main = pd.read_csv('data/processed/damage_assessment_clean_en.csv', low_memory=False)

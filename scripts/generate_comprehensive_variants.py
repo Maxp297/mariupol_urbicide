@@ -20,11 +20,14 @@ logger = logging.getLogger(__name__)
 
 class ForensicVariantGenerator:
     """Generates comprehensive address variants for forensic toponymic matching"""
+
+    def _create_variants_dir(self):
+        self.variants_dir.mkdir(parents=True, exist_ok=True)
     
     def __init__(self):
         self.project_root = Path(PROJECT_ROOT)
         self.variants_dir = self.project_root / 'data' / 'processed' / 'address_variants'
-        self.variants_dir.mkdir(parents=True, exist_ok=True)
+        self._create_variants_dir()
         
         # Ukrainian-specific transliteration rules (DSTU 9112:2021)
         self.uk_to_en_map = {

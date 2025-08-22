@@ -78,7 +78,7 @@ class ForensicFuzzyMatcher:
         if not text:
             return ""
         
-        text = str(text)
+        text = str(text).strip().lower()
         
         # Apply preprocessing patterns
         for pattern, replacement in self.preprocessing_patterns:
@@ -87,7 +87,7 @@ class ForensicFuzzyMatcher:
         # Normalize common Cyrillic variations
         text = text.replace('ё', 'е')  # Normalize ё to е
         
-        return text.strip().lower()
+        return text
     
     def calculate_multi_metric_confidence(self, text1: str, text2: str) -> Dict[str, float]:
         """Calculate comprehensive confidence score using multiple metrics"""
@@ -138,7 +138,7 @@ class ForensicFuzzyMatcher:
             candidate_clean = self.preprocess_cyrillic_text(candidate)
             
             # Calculate comprehensive metrics
-            metrics = self.calculate_multi_metric_confidence(query_address, candidate)
+            metrics = self.calculate_multi_metric_confidence(query_clean, candidate_clean)
             confidence_level = self.classify_confidence_level(metrics['composite'])
             
             result = {

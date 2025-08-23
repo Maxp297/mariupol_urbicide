@@ -13,9 +13,9 @@ services:
     image: postgis/postgis:15-3.3
     container_name: mariupol-forensic-db
     environment:
-      DB_NAME: mariupol_forensic_toponyms
-      DB_USER: forensic
-      DB_PASSWORD: forensic_secure_2024
+      POSTGRES_DB: mariupol_forensic_toponyms
+      POSTGRES_USER: forensic
+      POSTGRES_PASSWORD: forensic_secure_2024
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - forensic_db_data:/var/lib/postgresql/data

@@ -33,6 +33,7 @@ logging.basicConfig(
 logger = logging.getLogger("directory_monitor")
 
 # Constants
+PROJECT_ROOT = Path(PROJECT_ROOT)
 INPUT_DIR = PROJECT_ROOT / "input"
 PROCESSED_REGISTRY = PROJECT_ROOT / "data" / "processed_files_registry.json"
 

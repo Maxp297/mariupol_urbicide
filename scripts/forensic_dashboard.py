@@ -28,6 +28,9 @@ from config import PROJECT_ROOT
 
 from scripts.toponymic_lookup_service import ToponymicLookup
 
+# Convert string to Path
+PROJECT_ROOT = Path(PROJECT_ROOT)
+
 # Page configuration
 st.set_page_config(
     page_title="Mariupol Urbicide Forensic Analytics",

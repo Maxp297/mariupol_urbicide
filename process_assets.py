@@ -29,6 +29,7 @@ logging.basicConfig(
 logger = logging.getLogger("asset_processor")
 
 # Constants
+PROJECT_ROOT = Path(PROJECT_ROOT)
 RAW_DATA_DIR = PROJECT_ROOT / "data" / "raw"
 PROCESSED_DATA_DIR = PROJECT_ROOT / "data" / "processed"
 METADATA_DIR = PROJECT_ROOT / "data" / "metadata"

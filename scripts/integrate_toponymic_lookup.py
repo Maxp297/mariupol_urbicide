@@ -21,6 +21,8 @@ from scripts.toponymic_lookup_service import ToponymicLookup, get_address_varian
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
+PROJECT_ROOT = Path(PROJECT_ROOT)
+
 class AddressProcessor:
     """Enhanced address processor that uses the forensic toponymic database"""
     

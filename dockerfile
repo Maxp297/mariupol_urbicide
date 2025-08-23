@@ -18,8 +18,8 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /app
 
-# Copy project files
-COPY . .
+# Copy requirements
+COPY requirements.txt .
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
@@ -43,6 +43,9 @@ RUN pip install --no-cache-dir \
     geoplot \
     contextily
 
+# Copy project files
+COPY . .
+
 # Create necessary directories
 RUN mkdir -p /app/data /app/analysis /app/output /app/notebooks /app/logs
 
@@ -54,7 +57,7 @@ ENV DB_HOST=forensic-db
 ENV DB_PORT=5432
 
 # Copy startup script from scripts/ folder
-COPY scripts/start-forensic-platform.sh /app/start-forensic-platform.sh
+COPY scripts/start-forensic-platform.sh .
 
 # Make startup script executable
 RUN chmod +x /app/start-forensic-platform.sh

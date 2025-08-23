@@ -18,8 +18,10 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /app
 
-# Copy requirements and install Python dependencies
-COPY requirements.txt .
+# Copy project files
+COPY . .
+
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Install additional forensic analysis packages
@@ -40,9 +42,6 @@ RUN pip install --no-cache-dir \
     streamlit-folium \
     geoplot \
     contextily
-
-# Copy project files
-COPY . .
 
 # Create necessary directories
 RUN mkdir -p /app/data /app/analysis /app/output /app/notebooks /app/logs

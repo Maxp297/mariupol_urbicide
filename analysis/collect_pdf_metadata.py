@@ -3,9 +3,9 @@ import hashlib
 import json
 import csv
 from datetime import datetime
+from config import PROJECT_ROOT
 
 # Set up paths
-PROJECT_ROOT = os.environ.get("PROJECT_ROOT", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DOWNLOAD_DIR = os.path.join(PROJECT_ROOT, "data", "raw", "downloaded_pdfs")
 LINKS_JSON = os.path.join(PROJECT_ROOT, "data", "raw", "mariupol_pdf_links.json")
 OUT_CSV = os.path.join(PROJECT_ROOT, "data", "processed", "pdf_metadata.csv")

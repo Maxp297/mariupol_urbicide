@@ -16,11 +16,9 @@ import pandas as pd
 from rapidfuzz import fuzz, process, utils
 import psycopg2
 from psycopg2.extras import RealDictCursor
-from config import db_config
-
+from config import db_config, PROJECT_ROOT
 # Add project root to path
-PROJECT_ROOT = os.environ.get('PROJECT_ROOT', '/Users/alexeykovalev/Desktop/urbicide_project')
-sys.path.append(PROJECT_ROOT)
+sys.path.append(str(PROJECT_ROOT))
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

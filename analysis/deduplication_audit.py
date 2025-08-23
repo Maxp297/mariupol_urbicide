@@ -8,8 +8,8 @@ import os
 import json
 import hashlib
 import csv
+from config import PROJECT_ROOT
 
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LINKS_JSON = os.path.join(PROJECT_ROOT, 'data', 'raw', 'mariupol_pdf_links.json')
 PDF_DIR = os.path.join(PROJECT_ROOT, 'data', 'raw', 'downloaded_pdfs')
 OUT_CSV = os.path.join(PROJECT_ROOT, 'analysis', 'deduplication_audit.csv')

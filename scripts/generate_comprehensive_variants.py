@@ -12,10 +12,7 @@ import re
 from typing import Dict, List, Set, Optional
 from pathlib import Path
 import logging
-
-# Add project root to path
-PROJECT_ROOT = os.environ.get('PROJECT_ROOT', '/Users/alexeykovalev/Desktop/urbicide_project')
-sys.path.append(PROJECT_ROOT)
+from config import PROJECT_ROOT
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

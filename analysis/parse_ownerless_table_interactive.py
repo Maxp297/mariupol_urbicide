@@ -2,8 +2,8 @@ import os
 import json
 import csv
 import re
+from config import PROJECT_ROOT
 
-PROJECT_ROOT = os.environ.get("PROJECT_ROOT", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 STRUCTURED_JSON = os.path.join(PROJECT_ROOT, "data", "processed", "p.1173_structured.json")
 OUTPUT_CSV = os.path.join(PROJECT_ROOT, "data", "processed", "p.1173_ownerless_table.csv")
 

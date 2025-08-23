@@ -15,6 +15,7 @@ import argparse
 import logging
 from pathlib import Path
 from typing import Dict, List, Optional, Union, Tuple
+from config import PROJECT_ROOT
 
 # Configure logging
 logging.basicConfig(
@@ -28,7 +29,6 @@ logging.basicConfig(
 logger = logging.getLogger("asset_processor")
 
 # Constants
-PROJECT_ROOT = Path(os.path.dirname(os.path.abspath(__file__)))
 RAW_DATA_DIR = PROJECT_ROOT / "data" / "raw"
 PROCESSED_DATA_DIR = PROJECT_ROOT / "data" / "processed"
 METADATA_DIR = PROJECT_ROOT / "data" / "metadata"

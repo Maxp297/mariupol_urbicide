@@ -6,9 +6,9 @@ import re
 import json
 import csv
 from rapidfuzz import process, fuzz
+from config import PROJECT_ROOT
 
 # Set up paths
-PROJECT_ROOT = os.environ.get("PROJECT_ROOT", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PDF_DIR = os.path.join(PROJECT_ROOT, "data", "raw", "downloaded_pdfs")
 METADATA_PATH = os.path.join(PROJECT_ROOT, "data", "processed", "pdf_metadata.json")
 EXTRACTED_TEXT_DIR = os.path.join(PROJECT_ROOT, "data", "processed", "extracted_text")

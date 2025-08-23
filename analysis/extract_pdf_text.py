@@ -1,5 +1,5 @@
 import os
-BASE_DIR = os.environ.get("PROJECT_ROOT", os.path.dirname(os.path.abspath(__file__)))
+from config import PROJECT_ROOT as BASE_DIR
 import fitz  # PyMuPDF
 
 pdf_path = os.path.join(BASE_DIR, "data", "raw", "dpr_doc", "012_Reznichenko.pdf")

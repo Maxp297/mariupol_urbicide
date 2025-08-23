@@ -5,9 +5,10 @@
 import os
 import hashlib
 import pandas as pd
+from config import PROJECT_ROOT
 
 # Paths
-BASE = '/Users/alexeykovalev/Desktop/urbicide_project/data/processed/Morskoy46'
+BASE = f'{PROJECT_ROOT}/data/processed/Morskoy46'
 MEDIA_FOLDERS = ['telegram_images_raw', 'telegram_videos_raw', 'telegram_docs_raw']
 METADATA_CSV = os.path.join(BASE, 'telegram_media_metadata.csv')
 OUTPUT_CSV = os.path.join(BASE, 'telegram_media_metadata_hashed.csv')

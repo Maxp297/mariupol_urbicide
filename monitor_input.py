@@ -19,6 +19,7 @@ from pathlib import Path
 from typing import Dict, List, Set
 from datetime import datetime
 from process_assets import process_file, is_youtube_url
+from config import PROJECT_ROOT
 
 # Configure logging
 logging.basicConfig(
@@ -32,7 +33,6 @@ logging.basicConfig(
 logger = logging.getLogger("directory_monitor")
 
 # Constants
-PROJECT_ROOT = Path(os.path.dirname(os.path.abspath(__file__)))
 INPUT_DIR = PROJECT_ROOT / "input"
 PROCESSED_REGISTRY = PROJECT_ROOT / "data" / "processed_files_registry.json"
 

@@ -7,6 +7,7 @@ from telethon.sync import TelegramClient
 from telethon.tl.types import MessageMediaPhoto
 import asyncio
 import pandas as pd
+from config import PROJECT_ROOT
 
 # --- Configuration ---
 load_dotenv()
@@ -41,7 +42,7 @@ async def main():
             # Images/photos
             if message.photo:
                 filename = f"{message.date.strftime('%Y-%m-%d')}_{message.id}.jpg"
-                filepath = os.path.join('/Users/alexeykovalev/Desktop/urbicide_project/data/processed/Morskoy46/telegram_images_raw/', filename)
+                filepath = os.path.join(f'{PROJECT_ROOT}/data/processed/Morskoy46/telegram_images_raw/', filename)
                 if not os.path.exists(filepath):
                     await message.download_media(file=filepath)
                 meta['file_path'] = filepath
@@ -49,7 +50,7 @@ async def main():
             # Videos
             elif message.video:
                 filename = f"{message.date.strftime('%Y-%m-%d')}_{message.id}.mp4"
-                filepath = os.path.join('/Users/alexeykovalev/Desktop/urbicide_project/data/processed/Morskoy46/telegram_videos_raw/', filename)
+                filepath = os.path.join(f'{PROJECT_ROOT}/data/processed/Morskoy46/telegram_videos_raw/', filename)
                 if not os.path.exists(filepath):
                     await message.download_media(file=filepath)
                 meta['file_path'] = filepath
@@ -58,7 +59,7 @@ async def main():
             elif message.document:
                 ext = message.document.mime_type.split('/')[-1] if message.document.mime_type else 'bin'
                 filename = f"{message.date.strftime('%Y-%m-%d')}_{message.id}.{ext}"
-                filepath = os.path.join('/Users/alexeykovalev/Desktop/urbicide_project/data/processed/Morskoy46/telegram_docs_raw/', filename)
+                filepath = os.path.join(f'{PROJECT_ROOT}/data/processed/Morskoy46/telegram_docs_raw/', filename)
                 if not os.path.exists(filepath):
                     await message.download_media(file=filepath)
                 meta['file_path'] = filepath
@@ -70,7 +71,7 @@ async def main():
 
     if all_results:
         df = pd.DataFrame(all_results)
-        df.to_csv('/Users/alexeykovalev/Desktop/urbicide_project/data/processed/Morskoy46/telegram_media_metadata.csv', index=False, encoding='utf-8-sig')
+        df.to_csv(f'{PROJECT_ROOT}/data/processed/Morskoy46/telegram_media_metadata.csv', index=False, encoding='utf-8-sig')
         print(f"\nScraping complete. {len(all_results)} files saved. Metadata in telegram_media_metadata.csv")
     else:
         print("\nScraping complete. No media files found.")

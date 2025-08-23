@@ -18,11 +18,9 @@ import logging
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 import uuid
-from config import db_config  # Import database configuration from config module
-
+from config import db_config, PROJECT_ROOT
 # Add project root to path
-PROJECT_ROOT = os.environ.get('PROJECT_ROOT', '/Users/alexeykovalev/Desktop/urbicide_project')
-sys.path.append(PROJECT_ROOT)
+sys.path.append(str(PROJECT_ROOT))
 
 # Configure logging
 logging.basicConfig(

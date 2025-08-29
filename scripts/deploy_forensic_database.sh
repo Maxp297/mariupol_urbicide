@@ -214,7 +214,7 @@ cat > "$PROJECT_ROOT/start_forensic_system.sh" << 'EOF'
 #!/bin/bash
 # Quick-start script for forensic toponymic system
 
-if "$PROJECT_ROOT" == ""; then
+if [ -z "$PROJECT_ROOT" ]; then
     echo "PROJECT_ROOT env not set!"
     exit 1
 fi

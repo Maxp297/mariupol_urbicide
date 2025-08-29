@@ -146,7 +146,7 @@ class ForensicVariantGenerator:
     
     def generate_number_variants(self, address: str) -> List[str]:
         """Generate number format variants"""
-        variants = [address]
+        variants = {address,}
         
         # Extract numbers and generate variants
         for pattern in self.number_patterns:
@@ -166,9 +166,9 @@ class ForensicVariantGenerator:
                     
                     for num_var in number_variants:
                         variant = address.replace(match, num_var)
-                        variants.append(variant)
+                        variants.add(variant)
         
-        return list(set(variants))
+        return list(variants)
     
     def generate_building_designator_variants(self, address: str) -> List[str]:
         """Generate building designator variants"""

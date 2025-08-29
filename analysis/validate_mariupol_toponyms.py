@@ -2,13 +2,9 @@ import os
 import sys
 import psycopg2
 from pathlib import Path
-from dotenv import load_dotenv
 from config import db_config, PROJECT_ROOT
 # Add project root to path
 sys.path.append(str(PROJECT_ROOT))
-
-# Load environment variables
-load_dotenv()
 
 conn = psycopg2.connect(
     host=db_config['host'],

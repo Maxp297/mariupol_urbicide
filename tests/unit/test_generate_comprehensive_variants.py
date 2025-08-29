@@ -58,6 +58,7 @@ def test_transliterate_ukrainian(generator, input, expected):
         ("набережная Речная", ["наб.", "emb"]),
         ("шоссе Киевское", ["ш.", "hwy"]),
         ("тупик Лесной", ["туп.", "cul-de-sac"]),
+        ("неизвестная дорога", []),
     ],
 )
 def test_generate_abbreviation_variants(generator, address, expected_abbrevs):
@@ -89,13 +90,23 @@ def test_generate_number_variants(generator, address, expected_patterns):
         assert any(pattern.lower() in v.lower() for v in variants)
 
 
-def test_generate_building_designator_variants(generator):
-    address = "дом 12"
+@pytest.mark.parametrize(
+    "address,expected_keywords",
+    [
+        ("дом 12", ["д.", "house", "bldg"]),
+        ("будинок 5", ["буд.", "house", "building"]),
+        ("корпус 3", ["к.", "corp"]),
+        ("строение 8", ["стр.", "structure"]),
+        ("улица Свободы 15", []),
+    ],
+)
+def test_generate_building_designator_variants(generator, address, expected_keywords):
     variants = generator.generate_building_designator_variants(address)
 
     assert address in variants
-    assert any("house 12" in v.lower() for v in variants)
-    assert any("bldg." in v.lower() for v in variants)
+
+    for keyword in expected_keywords:
+        assert any(keyword in v.lower() for v in variants)
 
 
 def test_generate_comprehensive_variants(generator):

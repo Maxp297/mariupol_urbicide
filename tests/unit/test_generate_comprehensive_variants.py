@@ -47,27 +47,46 @@ def test_transliterate_ukrainian(generator, input, expected):
     assert result == expected
 
 
-def test_generate_abbreviation_variants(generator):
-    address = "бульвар Морской"
+@pytest.mark.parametrize(
+    "address,expected_abbrevs",
+    [
+        ("бульвар Морской", ["б-р", "blvd"]),
+        ("улица Ленина", ["ул.", "st"]),
+        ("проспект Победы", ["пр-т", "ave"]),
+        ("переулок Горького", ["пер.", "lane"]),
+        ("площадь Свободы", ["пл.", "square"]),
+        ("набережная Речная", ["наб.", "emb"]),
+        ("шоссе Киевское", ["ш.", "hwy"]),
+        ("тупик Лесной", ["туп.", "cul-de-sac"]),
+    ],
+)
+def test_generate_abbreviation_variants(generator, address, expected_abbrevs):
     variants = generator.generate_abbreviation_variants(address, "rus")
-    
-    # Must include original
+
     assert address in variants
-    # Must include common abbreviation
-    assert any("б-р" in v.lower() for v in variants)
-    assert any("blvd" in v.lower() for v in variants)
+
+    for abbrev in expected_abbrevs:
+        assert any(abbrev in v.lower() for v in variants)
 
 
-def test_generate_number_variants(generator):
-    address = "ул. Ленина, 46"
+@pytest.mark.parametrize(
+    "address,expected_patterns",
+    [
+        ("ул. Ленина, 46", ["46а", "дом 46", "№46", "Building 46"]),
+        ("ул. Ленина, 46а", ["46", "д. 46", "будинок 46а"]),
+        ("ул. Ленина, 46/1", ["46", "46-й", "46/1-ий", "д. 46/1"]),
+        ("ул. Ленина, 46-2", ["46", "46а"]),
+        ("ул. Ленина, 46 к.1", ["46", "46-ий к.1"]),
+        ("ул. Ленина, 46 корп.1", ["46", "корп."]),
+    ],
+)
+def test_generate_number_variants(generator, address, expected_patterns):
     variants = generator.generate_number_variants(address)
 
-    # Original retained
     assert address in variants
-    # Some generated forms
-    assert any("46а" in v.lower() for v in variants)
-    assert any("дом 46" in v.lower() for v in variants)
-    assert any("building 46" in v.lower() for v in variants)
+
+    for pattern in expected_patterns:
+        assert any(pattern.lower() in v.lower() for v in variants)
 
 
 def test_generate_building_designator_variants(generator):

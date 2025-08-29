@@ -223,6 +223,7 @@ class ForensicVariantGenerator:
         
         return variants
     
+    # FIXME: not very useful, just a bunch of hard-coded variants
     def convert_russian_to_ukrainian_street(self, russian_street: str) -> str:
         """Convert Russian street names to Ukrainian equivalents"""
         # Common Russian-Ukrainian street name conversions

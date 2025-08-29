@@ -2,6 +2,10 @@
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+# read env vars from local .env file
+load_dotenv()
 
 PROJECT_ROOT = os.environ.get('PROJECT_ROOT', Path(__file__).resolve().parent)
 

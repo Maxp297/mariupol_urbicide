@@ -9,12 +9,12 @@ set -e
 DB_NAME="mariupol_forensic"
 DB_USER="forensic_user"
 
-if "$PROJECT_ROOT" == ""; then
+if [ -z "$PROJECT_ROOT" ]; then
     echo "PROJECT_ROOT env not set!"
     exit 1
 fi
 
-if "$DB_PASSWORD" == ""; then
+if [ -z "$DB_PASSWORD" ]; then
     echo "DB_PASSWORD env not set!"
     exit 1
 fi

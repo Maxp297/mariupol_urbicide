@@ -45,3 +45,62 @@ def test_transliterate_russian(generator, input, expected):
 def test_transliterate_ukrainian(generator, input, expected):
     result = generator.transliterate_ukrainian(input)
     assert result == expected
+
+
+def test_generate_abbreviation_variants(generator):
+    address = "бульвар Морской"
+    variants = generator.generate_abbreviation_variants(address, "rus")
+    
+    # Must include original
+    assert address in variants
+    # Must include common abbreviation
+    assert any("б-р" in v.lower() for v in variants)
+    assert any("blvd" in v.lower() for v in variants)
+
+
+def test_generate_number_variants(generator):
+    address = "ул. Ленина, 46"
+    variants = generator.generate_number_variants(address)
+
+    # Original retained
+    assert address in variants
+    # Some generated forms
+    assert any("46а" in v.lower() for v in variants)
+    assert any("дом 46" in v.lower() for v in variants)
+    assert any("building 46" in v.lower() for v in variants)
+
+
+def test_generate_building_designator_variants(generator):
+    address = "дом 12"
+    variants = generator.generate_building_designator_variants(address)
+
+    assert address in variants
+    assert any("house 12" in v.lower() for v in variants)
+    assert any("bldg." in v.lower() for v in variants)
+
+
+def test_generate_comprehensive_variants(generator):
+    variants = generator.generate_comprehensive_variants(
+        base_address="бульвар Морской, 46",
+        street_name="бульвар Морской",
+        building_number="46"
+    )
+    assert "rus" in variants
+    assert "ukr" in variants
+    assert "eng" in variants
+
+    # Must generate some transliterated English variant
+    assert any("Morskoi" in v or "Morskyi" in v for v in variants["eng"])
+
+
+@pytest.mark.parametrize(
+    "rus,expected",
+    [
+        ("морской", "Морський"),
+        ("комсомольский", "Комсомольський"),
+        ("Ленина", "Леніна"),
+        ("неизвестная", "Неизвестная"),  # unchanged if no mapping
+    ]
+)
+def test_convert_russian_to_ukrainian_street(generator, rus, expected):
+    assert generator.convert_russian_to_ukrainian_street(rus) == expected

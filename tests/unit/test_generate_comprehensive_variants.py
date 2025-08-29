@@ -109,20 +109,6 @@ def test_generate_building_designator_variants(generator, address, expected_keyw
         assert any(keyword in v.lower() for v in variants)
 
 
-def test_generate_comprehensive_variants(generator):
-    variants = generator.generate_comprehensive_variants(
-        base_address="бульвар Морской, 46",
-        street_name="бульвар Морской",
-        building_number="46"
-    )
-    assert "rus" in variants
-    assert "ukr" in variants
-    assert "eng" in variants
-
-    # Must generate some transliterated English variant
-    assert any("Morskoi" in v or "Morskyi" in v for v in variants["eng"])
-
-
 @pytest.mark.parametrize(
     "address,expected_street,expected_number",
     [

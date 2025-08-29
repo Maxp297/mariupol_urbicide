@@ -123,7 +123,7 @@ class ForensicVariantGenerator:
     
     def generate_abbreviation_variants(self, address: str, language: str) -> List[str]:
         """Generate abbreviation variants for street types"""
-        variants = [address]
+        variants = {address,}
         address_lower = address.lower()
         
         for full_form, abbrevs in self.street_abbreviations.items():
@@ -136,13 +136,13 @@ class ForensicVariantGenerator:
                         address_lower, 
                         flags=re.IGNORECASE
                     )
-                    variants.append(variant.title())
+                    variants.add(variant.title())
                     
                     # Also try with different capitalization
-                    variants.append(variant.upper())
-                    variants.append(variant.lower())
+                    variants.add(variant.upper())
+                    variants.add(variant.lower())
         
-        return list(set(variants))
+        return list(variants)
     
     def generate_number_variants(self, address: str) -> List[str]:
         """Generate number format variants"""
@@ -172,7 +172,7 @@ class ForensicVariantGenerator:
     
     def generate_building_designator_variants(self, address: str) -> List[str]:
         """Generate building designator variants"""
-        variants = [address]
+        variants = {address,}
         address_lower = address.lower()
         
         for full_form, abbrevs in self.building_designators.items():
@@ -184,9 +184,9 @@ class ForensicVariantGenerator:
                         address_lower,
                         flags=re.IGNORECASE
                     )
-                    variants.append(variant.title())
+                    variants.add(variant.title())
         
-        return list(set(variants))
+        return list(variants)
     
     def generate_comprehensive_variants(self, base_address: str, street_name: str, building_number: str) -> Dict[str, List[str]]:
         """Generate comprehensive variants for all languages"""

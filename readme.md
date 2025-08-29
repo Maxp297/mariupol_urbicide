@@ -52,7 +52,7 @@ pip install -r requirements.txt
 ### Testing
 
 There are some tests in the `tests` folder
-that can be run with a simple invokation of `pytest` from project root
+that can be run with a simple invocation of `pytest` from project root
 
 ### Service Architecture
 

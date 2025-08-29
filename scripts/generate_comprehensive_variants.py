@@ -5,10 +5,9 @@ Implements comprehensive transliteration and normalization for Ukrainian/Russian
 Based on Opus research report recommendations
 """
 
-import os
-import sys
 import json
 import re
+import pandas as pd
 from typing import Dict, List, Set, Optional
 from pathlib import Path
 import logging

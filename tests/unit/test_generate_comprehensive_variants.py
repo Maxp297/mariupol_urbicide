@@ -94,13 +94,15 @@ def test_generate_comprehensive_variants(generator):
 
 
 @pytest.mark.parametrize(
-    "rus,expected",
+    "address,expected_street,expected_number",
     [
-        ("морской", "Морський"),
-        ("комсомольский", "Комсомольський"),
-        ("Ленина", "Леніна"),
-        ("неизвестная", "Неизвестная"),  # unchanged if no mapping
+        ("ул. Ленина, 46", "ул. Ленина", "46"),
+        ("дом 25", "", "25"),
+        ("проспект Победы, д. 12а", "проспект Победы", "12а"),
+        ("no building here", None, None),
     ]
 )
-def test_convert_russian_to_ukrainian_street(generator, rus, expected):
-    assert generator.convert_russian_to_ukrainian_street(rus) == expected
+def test_parse_address(generator, address, expected_street, expected_number):
+    street, number = generator.parse_address(address)
+    assert street == expected_street
+    assert number == expected_number

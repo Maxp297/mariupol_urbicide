@@ -3,8 +3,8 @@ import pdfplumber
 import pytesseract
 from pdf2image import convert_from_path
 import re
+from config import PROJECT_ROOT
 
-PROJECT_ROOT = os.environ.get("PROJECT_ROOT", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PDF_PATH = os.path.join(PROJECT_ROOT, "data", "raw", "downloaded_pdfs", "p.1183.pdf")  # Change to p.1189.pdf as needed
 OUTPUT_TXT = os.path.join(PROJECT_ROOT, "data", "processed", "p.1183_extracted.txt")
 

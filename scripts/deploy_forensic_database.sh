@@ -8,8 +8,16 @@ set -e
 # Configuration
 DB_NAME="mariupol_forensic"
 DB_USER="forensic_user"
-DB_PASSWORD="${DB_PASSWORD:-forensic_secure_2024}"
-PROJECT_ROOT="${PROJECT_ROOT:-/Users/alexeykovalev/Desktop/urbicide_project}"
+
+if [ -z "$PROJECT_ROOT" ]; then
+    echo "PROJECT_ROOT env not set!"
+    exit 1
+fi
+
+if [ -z "$DB_PASSWORD" ]; then
+    echo "DB_PASSWORD env not set!"
+    exit 1
+fi
 
 echo "=== Forensic Toponymic Database Deployment ==="
 echo "Database: $DB_NAME"
@@ -206,7 +214,11 @@ cat > "$PROJECT_ROOT/start_forensic_system.sh" << 'EOF'
 #!/bin/bash
 # Quick-start script for forensic toponymic system
 
-PROJECT_ROOT="${PROJECT_ROOT:-/Users/alexeykovalev/Desktop/urbicide_project}"
+if [ -z "$PROJECT_ROOT" ]; then
+    echo "PROJECT_ROOT env not set!"
+    exit 1
+fi
+
 cd "$PROJECT_ROOT"
 
 # Load environment

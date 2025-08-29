@@ -24,12 +24,12 @@ from datetime import datetime, timedelta
 import json
 import sys
 from pathlib import Path
-
-# Add project root to path
-PROJECT_ROOT = Path(__file__).parent.parent
-sys.path.append(str(PROJECT_ROOT))
+from config import PROJECT_ROOT
 
 from scripts.toponymic_lookup_service import ToponymicLookup
+
+# Convert string to Path
+PROJECT_ROOT = Path(PROJECT_ROOT)
 
 # Page configuration
 st.set_page_config(

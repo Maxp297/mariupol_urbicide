@@ -1,5 +1,5 @@
 import os
-BASE_DIR = os.environ.get("PROJECT_ROOT", os.path.dirname(os.path.abspath(__file__)))
+from config import PROJECT_ROOT as BASE_DIR
 import osmnx as ox
 
 G = ox.graph_from_place('Mariupol, Ukraine', network_type='drive')

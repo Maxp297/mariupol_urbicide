@@ -8,7 +8,8 @@ from pdf2image import convert_from_path
 import pytesseract
 from tqdm import tqdm
 from datetime import datetime
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+from config import PROJECT_ROOT
+
 DOWNLOAD_DIR = os.path.join(PROJECT_ROOT, "data", "raw", "downloaded_pdfs")
 BASE_URL = "https://mariupol-r897.gosweb.gosuslugi.ru/ofitsialno/dokumenty/"
 KEYWORDS = [

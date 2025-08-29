@@ -2,6 +2,7 @@ import os
 import pdfplumber
 from pdf2image import convert_from_path
 import pytesseract
+from config import PROJECT_ROOT
 
 KEYWORDS = [
     "о сносе",
@@ -20,7 +21,7 @@ KEYWORDS = [
     "имущество"
 ]
 
-DOWNLOAD_DIR = "/Users/alexeykovalev/Desktop/urbicide_project/data/raw/downloaded_pdfs"
+DOWNLOAD_DIR = f"{PROJECT_ROOT}/data/raw/downloaded_pdfs"
 
 def extract_text(pdf_path):
     text = ""

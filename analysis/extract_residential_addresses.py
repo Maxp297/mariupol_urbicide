@@ -1,5 +1,5 @@
 import os
-BASE_DIR = os.environ.get("PROJECT_ROOT", os.path.dirname(os.path.abspath(__file__)))
+from config import PROJECT_ROOT as BASE_DIR
 import pandas as pd
 
 IN_PATH = os.path.join(BASE_DIR, "data", "raw", "residential_seized.csv")

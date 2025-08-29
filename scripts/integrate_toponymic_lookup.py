@@ -13,16 +13,15 @@ import pandas as pd
 from pathlib import Path
 from typing import List, Dict, Set
 import logging
-
-# Add project root to path
-PROJECT_ROOT = Path(__file__).parent.parent
-sys.path.append(str(PROJECT_ROOT))
+from config import PROJECT_ROOT
 
 from scripts.toponymic_lookup_service import ToponymicLookup, get_address_variants, normalize_address
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+PROJECT_ROOT = Path(PROJECT_ROOT)
 
 class AddressProcessor:
     """Enhanced address processor that uses the forensic toponymic database"""

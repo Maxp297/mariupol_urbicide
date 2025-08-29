@@ -2,9 +2,9 @@ import os
 import csv
 import pandas as pd
 from glob import glob
+from config import PROJECT_ROOT as BASE_DIR
 
 # --- CONFIGURABLE PATHS ---
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CURATED_DIRS = [
     os.path.join(BASE_DIR, "data/processed/Morskoy46/telegram_images_sorted/building_facade_reference/46_only"),
     os.path.join(BASE_DIR, "data/processed/Morskoy46/telegram_images_sorted/building_facade_reference/historical")

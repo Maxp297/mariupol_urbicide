@@ -16,10 +16,9 @@ import pandas as pd
 from rapidfuzz import fuzz, process, utils
 import psycopg2
 from psycopg2.extras import RealDictCursor
-
+from config import db_config, PROJECT_ROOT
 # Add project root to path
-PROJECT_ROOT = os.environ.get('PROJECT_ROOT', '/Users/alexeykovalev/Desktop/urbicide_project')
-sys.path.append(PROJECT_ROOT)
+sys.path.append(str(PROJECT_ROOT))
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -288,14 +287,6 @@ class ForensicFuzzyMatcher:
 
 def main():
     """Main execution function for testing"""
-    # Database configuration
-    db_config = {
-        'host': os.environ.get('DB_HOST', 'localhost'),
-        'port': os.environ.get('DB_PORT', '5432'),
-        'database': os.environ.get('DB_NAME', 'mariupol_forensic'),
-        'user': os.environ.get('DB_USER', 'postgres'),
-        'password': os.environ.get('DB_PASSWORD', 'postgres')
-    }
     
     # Initialize matcher
     matcher = ForensicFuzzyMatcher(db_config)

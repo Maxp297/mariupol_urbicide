@@ -22,10 +22,9 @@ from dataclasses import dataclass
 from datetime import datetime
 import psycopg2
 from psycopg2.extras import RealDictCursor
-from fuzzywuzzy import fuzz, process
-
+from rapidfuzz import fuzz
+from config import db_config, PROJECT_ROOT
 # Add project root to path
-PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.append(str(PROJECT_ROOT))
 
 # Configure logging
@@ -68,11 +67,11 @@ class ToponymicLookup:
         """Connect to forensic toponymic database"""
         try:
             self.conn = psycopg2.connect(
-                host="localhost",
+                host=db_config['host'],
                 database=self.db_name,
-                user="postgres",
-                password="",
-                port=5432
+                user=db_config['user'],
+                password=db_config['password'],
+                port=int(db_config['port'])
             )
             # Set search path to forensic schema
             with self.conn.cursor() as cur:

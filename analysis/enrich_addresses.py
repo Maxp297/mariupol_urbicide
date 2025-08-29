@@ -25,9 +25,9 @@ import pandas as pd
 from collections import defaultdict
 from difflib import SequenceMatcher
 from pathlib import Path
+from config import PROJECT_ROOT
 
 # --- CONFIG ---
-PROJECT_ROOT = os.environ.get('PROJECT_ROOT', str(Path(__file__).resolve().parent.parent))
 DATA_DIR = os.path.join(PROJECT_ROOT, 'data', 'processed')
 RAW_PDF_DIR = os.path.join(PROJECT_ROOT, 'data', 'raw', 'downloaded_pdfs')
 

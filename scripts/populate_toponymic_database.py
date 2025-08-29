@@ -18,10 +18,9 @@ import logging
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 import uuid
-
+from config import db_config, PROJECT_ROOT
 # Add project root to path
-PROJECT_ROOT = os.environ.get('PROJECT_ROOT', '/Users/alexeykovalev/Desktop/urbicide_project')
-sys.path.append(PROJECT_ROOT)
+sys.path.append(str(PROJECT_ROOT))
 
 # Configure logging
 logging.basicConfig(
@@ -583,14 +582,6 @@ class ForensicToponymicPopulator:
 
 def main():
     """Main execution function"""
-    # Database configuration
-    db_config = {
-        'host': os.environ.get('DB_HOST', 'localhost'),
-        'port': os.environ.get('DB_PORT', '5432'),
-        'database': os.environ.get('DB_NAME', 'mariupol_forensic_toponyms'),
-        'user': os.environ.get('DB_USER', 'alexeykovalev'),
-        'password': os.environ.get('DB_PASSWORD', '')
-    }
     
     # Create logs directory
     logs_dir = Path(PROJECT_ROOT) / 'logs'

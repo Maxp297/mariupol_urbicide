@@ -8,11 +8,11 @@ import hashlib
 import mimetypes
 import pandas as pd
 from datetime import datetime
+from config import PROJECT_ROOT
 
 import argparse
 
 # CONFIGURATION
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_ASSET_DIR = os.path.join(PROJECT_ROOT, 'data', 'processed', 'Morskoy46')
 DEFAULT_DB_CSV = os.path.join(PROJECT_ROOT, 'data', 'processed', 'Morskoy46', 'asset_database.csv')
 
@@ -104,4 +104,3 @@ if __name__ == '__main__':
     asset_dirs = [os.path.abspath(args.root)]
     db_csv = os.path.abspath(args.output)
     index_assets(asset_dirs, db_csv)
-

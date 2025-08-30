@@ -20,6 +20,9 @@ WORKDIR /app
 
 # Copy requirements
 COPY requirements.txt .
+# Copy necessary project files 
+# (scripts, analisys, data are mounted as volumes already)
+COPY config.py .
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
@@ -42,9 +45,6 @@ RUN pip install --no-cache-dir \
     streamlit-folium \
     geoplot \
     contextily
-
-# Copy project files
-COPY . .
 
 # Create necessary directories
 RUN mkdir -p /app/data /app/analysis /app/output /app/notebooks /app/logs

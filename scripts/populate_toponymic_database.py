@@ -243,6 +243,21 @@ class ForensicToponymicPopulator:
         logger.info(f"Found {len(unique_streets)} unique street names in seized properties")
         logger.info(f"Processed columns: {all_columns_to_process}")
         
+        # Check existing street names
+        with self.conn.cursor() as cur:
+            cur.execute("SELECT DISTINCT LOWER(name_text) FROM forensic_toponymy.street_names;")
+            existing_streets = {row[0] for row in cur.fetchall()}
+
+        logger.info(f"Found {len(existing_streets)} existing unique street names in the database")
+
+        # Determine new streets
+        new_streets_to_load = {s for s in unique_streets if s.lower() not in existing_streets}
+        if not new_streets_to_load:
+            logger.info("No new street names to add from seized properties file")
+            return
+
+        logger.info(f"Found {len(new_streets_to_load)} new streets to insert")
+
         # Prepare data for bulk insertion
         streets_to_insert = []
         street_names_to_insert = []
@@ -250,7 +265,7 @@ class ForensicToponymicPopulator:
         created_at = datetime.now(timezone.utc)
         occupation_start_date = datetime(2022, 2, 24, tzinfo=timezone.utc)
 
-        for street_name in unique_streets:
+        for street_name in new_streets_to_load:
             street_id = str(uuid.uuid4())
             # Prepare street record
             streets_to_insert.append((
@@ -292,7 +307,7 @@ class ForensicToponymicPopulator:
             """, street_names_to_insert)
         
         self.conn.commit()
-        logger.info(f"Loaded {len(unique_streets)} street toponyms from seized properties")
+        logger.info(f"Loaded {len(new_streets_to_load)} street toponyms from seized properties")
     
     def detect_columns(self, df: pd.DataFrame, keyword: str) -> List[str]:
         """Detect column names containing the given keyword"""

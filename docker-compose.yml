@@ -34,6 +34,16 @@ services:
     logging: *default-logging
     command: ["postgres"]
 
+  # One-off job to prepare the necessary data files
+  init-data:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    restart: "no"
+    volumes:
+      - ./data/processed:/app/data/processed:rw
+    command: ["python", "analysis/geojson_to_csv.py", "data/processed/seized_properties_combined.geojson"]
+
   # Forensic Analytics Platform
   forensic-analytics:
     build: 
@@ -43,6 +53,8 @@ services:
     depends_on:
       forensic-db:
         condition: service_healthy
+      init-data:
+        condition: service_completed_successfully
     environment:
       DB_HOST: forensic-db
       DB_NAME: mariupol_forensic_toponyms
@@ -82,6 +94,8 @@ services:
     depends_on:
       forensic-db:
         condition: service_healthy
+      init-data:
+        condition: service_completed_successfully
     environment:
       DB_HOST: forensic-db
       DB_NAME: mariupol_forensic_toponyms

@@ -236,46 +236,60 @@ class ForensicToponymicPopulator:
                     if street_name:
                         unique_streets.add(street_name)
         
+        if not unique_streets:
+            logger.info("No unique street names found")
+            return
+
         logger.info(f"Found {len(unique_streets)} unique street names in seized properties")
         logger.info(f"Processed columns: {all_columns_to_process}")
         
-        # Insert street names with occupation period context
+        # Prepare data for bulk insertion
+        streets_to_insert = []
+        street_names_to_insert = []
+        file_hash = self.calculate_file_hash(str(seized_props_path))
+        created_at = datetime.now(timezone.utc)
+        occupation_start_date = datetime(2022, 2, 24, tzinfo=timezone.utc)
+
+        for street_name in unique_streets:
+            street_id = str(uuid.uuid4())
+            # Prepare street record
+            streets_to_insert.append((
+                street_id, created_at, 'seized_properties_migration',
+                file_hash, 0.8,
+                json.dumps({
+                    'source_dataset': 'seized_properties_combined.csv',
+                    'extraction_method': 'automated_street_name_extraction'
+                })
+            ))
+            # Prepare street name record
+            street_names_to_insert.append((
+                street_id, street_name, self.detect_language_code(street_name), 'Cyrl',
+                occupation_start_date,
+                'seized_properties_combined.csv',
+                file_hash,
+                'media_report', 'occupation', 0.8,
+                json.dumps({
+                    'extraction_context': 'property_seizure_documents',
+                    'administrative_violence': True
+                })
+            ))
+
+        # Insert street names with occupation period context in bulk
         with self.conn.cursor() as cur:
-            for street_name in unique_streets:
-                street_id = str(uuid.uuid4())
-                
-                # Insert street
-                cur.execute("""
-                    INSERT INTO forensic_toponymy.streets 
-                    (street_id, created_at, created_by, source_hash, confidence_score, metadata)
-                    VALUES (%s, %s, %s, %s, %s, %s)
-                """, (
-                    street_id, datetime.now(timezone.utc), 'seized_properties_migration',
-                    self.calculate_file_hash(str(seized_props_path)), 0.8,
-                    json.dumps({
-                        'source_dataset': 'seized_properties_combined.csv',
-                        'extraction_method': 'automated_street_name_extraction'
-                    })
-                ))
-                
-                # Insert street name with occupation context
-                cur.execute("""
-                    INSERT INTO forensic_toponymy.street_names 
-                    (street_id, name_text, language_code, script_code, valid_from,
-                     source_document, source_hash, evidence_type, administrative_period,
-                     confidence_score, metadata)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                """, (
-                    street_id, street_name, self.detect_language_code(street_name), 'Cyrl', 
-                    datetime(2022, 2, 24, tzinfo=timezone.utc),  # Start of occupation
-                    'seized_properties_combined.csv',
-                    self.calculate_file_hash(str(seized_props_path)),
-                    'media_report', 'occupation', 0.8,
-                    json.dumps({
-                        'extraction_context': 'property_seizure_documents',
-                        'administrative_violence': True
-                    })
-                ))
+            # Bulk insert streets table
+            execute_values(cur, """
+                INSERT INTO forensic_toponymy.streets 
+                (street_id, created_at, created_by, source_hash, confidence_score, metadata)
+                VALUES %s
+            """, streets_to_insert)
+            # Bulk insert into street_names table
+            execute_values(cur, """
+                INSERT INTO forensic_toponymy.street_names 
+                (street_id, name_text, language_code, script_code, valid_from,
+                 source_document, source_hash, evidence_type, administrative_period,
+                 confidence_score, metadata)
+                VALUES %s
+            """, street_names_to_insert)
         
         self.conn.commit()
         logger.info(f"Loaded {len(unique_streets)} street toponyms from seized properties")

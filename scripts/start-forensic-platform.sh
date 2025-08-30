@@ -27,7 +27,12 @@ fi
 echo "[INFO] Checking database population..."
 if ! psql -h $DB_HOST -U $DB_USER -d $DB_NAME -c "SELECT COUNT(*) FROM forensic_toponymy.evidence_sources;" > /dev/null 2>&1; then
     echo "[INFO] Populating forensic database..."
-    cd /app && python scripts/populate_toponymic_database.py
+    cd /app
+    if [ -f "data/processed/seized_properties_combined.csv" ]; then
+      echo "[INFO] seized_properties_combined.csv not found, generating from GeoJSON..."
+      python analysis/geojson_to_csv.py data/processed/seized_properties_combined.geojson
+    fi
+    python scripts/populate_toponymic_database.py
     echo "[SUCCESS] Database populated"
 else
     echo "[SUCCESS] Database already populated"

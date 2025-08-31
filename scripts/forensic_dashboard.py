@@ -74,22 +74,20 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 @st.cache_data
-def load_forensic_data():
-    """Load and cache forensic data from all sources"""
-    try:
-        # Load seized properties
-        seized_df = pd.read_csv(PROJECT_ROOT / "data" / "processed" / "seized_properties_combined.csv")
-        
-        # Load damage assessment
-        damage_df = pd.read_csv(PROJECT_ROOT / "data" / "processed" / "damage_assessment_clean_en.csv")
-        
-        # Load PDF metadata
-        pdf_df = pd.read_csv(PROJECT_ROOT / "data" / "processed" / "pdf_metadata.csv")
-        
-        return seized_df, damage_df, pdf_df
-    except Exception as e:
-        st.error(f"Failed to load forensic data: {e}")
-        return None, None, None
+def load_seized_properties_data():
+    return pd.read_csv(PROJECT_ROOT / "data" / "processed" / "seized_properties_combined.csv")
+
+@st.cache_data
+def load_damage_assessment_data():
+    return pd.read_csv(PROJECT_ROOT / "data" / "processed" / "damage_assessment_clean_en.csv")
+
+@st.cache_data
+def load_pdf_metadata():
+    return pd.read_csv(PROJECT_ROOT / "data" / "processed" / "pdf_metadata.csv")
+
+@st.cache_data
+def load_actor_roles_data():
+    return pd.read_csv(PROJECT_ROOT / "data" / "processed" / "actor_roles_nominative.csv")
 
 @st.cache_data
 def get_database_statistics():
@@ -105,44 +103,49 @@ def create_temporal_analysis():
     """Create temporal analysis of administrative violence"""
     st.header("🕐 Temporal Analysis of Administrative Violence")
     
-    seized_df, damage_df, pdf_df = load_forensic_data()
-    if seized_df is None:
-        return
-    
-    # Parse dates and create timeline
-    if 'date' in pdf_df.columns:
-        pdf_df['date'] = pd.to_datetime(pdf_df['date'], errors='coerce')
+    try:
+        seized_df = load_seized_properties_data()
+        pdf_df = load_pdf_metadata()
         
-        # Group by month
-        monthly_docs = pdf_df.groupby(pdf_df['date'].dt.to_period('M')).size().reset_index()
-        monthly_docs.columns = ['month', 'document_count']
-        monthly_docs['month'] = monthly_docs['month'].astype(str)
+        # Parse dates and create timeline
+        if 'date' in pdf_df.columns:
+            pdf_df['date'] = pd.to_datetime(pdf_df['date'], errors='coerce')
+            
+            # Group by month
+            monthly_docs = pdf_df.groupby(pdf_df['date'].dt.to_period('M')).size().reset_index()
+            monthly_docs.columns = ['month', 'document_count']
+            monthly_docs['month'] = monthly_docs['month'].astype(str)
+            
+            # Create timeline visualization
+            fig = px.line(monthly_docs, x='month', y='document_count',
+                        title='Administrative Documents Over Time',
+                        labels={'document_count': 'Number of Documents', 'month': 'Month'})
+            fig.update_layout(xaxis_tickangle=-45)
+            st.plotly_chart(fig, use_container_width=True)
         
-        # Create timeline visualization
-        fig = px.line(monthly_docs, x='month', y='document_count',
-                     title='Administrative Documents Over Time',
-                     labels={'document_count': 'Number of Documents', 'month': 'Month'})
-        fig.update_layout(xaxis_tickangle=-45)
-        st.plotly_chart(fig, use_container_width=True)
-    
-    # Administrative periods analysis
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.subheader("📊 Seizure Patterns by District")
-        if 'district' in seized_df.columns:
-            district_counts = seized_df['district'].value_counts()
-            fig = px.bar(x=district_counts.index, y=district_counts.values,
-                        title='Seized Properties by District')
-            st.plotly_chart(fig, use_container_width=True)
-    
-    with col2:
-        st.subheader("🏢 Property Types Seized")
-        if 'property_type' in seized_df.columns:
-            property_counts = seized_df['property_type'].value_counts()
-            fig = px.pie(values=property_counts.values, names=property_counts.index,
-                        title='Distribution of Seized Property Types')
-            st.plotly_chart(fig, use_container_width=True)
+        # Administrative periods analysis
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.subheader("📊 Seizure Patterns by District")
+            if 'district' in seized_df.columns:
+                district_counts = seized_df['district'].value_counts()
+                fig = px.bar(x=district_counts.index, y=district_counts.values,
+                            title='Seized Properties by District')
+                st.plotly_chart(fig, use_container_width=True)
+        
+        with col2:
+            st.subheader("🏢 Property Types Seized")
+            if 'property_type' in seized_df.columns:
+                property_counts = seized_df['property_type'].value_counts()
+                fig = px.pie(values=property_counts.values, names=property_counts.index,
+                            title='Distribution of Seized Property Types')
+                st.plotly_chart(fig, use_container_width=True)
+    except FileNotFoundError as e:
+        st.error(f"Could not perform temporal analysis. Required data file is missing: {e.filename}")
+    except Exception as e:
+        st.error(f"An unexpected error occurred during temporal analysis: {e}")
+
 
 def create_address_analysis():
     """Create advanced address and toponymic analysis"""
@@ -225,16 +228,12 @@ def create_network_analysis():
     """Create network analysis of administrative relationships"""
     st.header("🕸️ Administrative Network Analysis")
     
-    seized_df, damage_df, pdf_df = load_forensic_data()
-    if seized_df is None:
-        return
-    
     # Create network graph of relationships
     st.subheader("🏛️ Administrative Actor Networks")
     
     # Load actor data if available
     try:
-        actors_df = pd.read_csv(PROJECT_ROOT / "data" / "processed" / "actor_roles_nominative.csv")
+        actors_df = load_actor_roles_data()
         
         # Create network visualization
         G = nx.Graph()
@@ -270,13 +269,19 @@ def create_network_analysis():
     
     except FileNotFoundError:
         st.warning("Actor network data not available. Run actor extraction scripts first.")
+    except Exception as e:
+        st.error(f"An unexpected error occurred during network analysis: {e}")
 
 def create_evidence_provenance():
     """Create evidence provenance and chain-of-custody tracking"""
     st.header("📋 Evidence Provenance & Chain of Custody")
     
-    seized_df, damage_df, pdf_df = load_forensic_data()
-    
+    pdf_df = None
+    try:
+        pdf_df = load_pdf_metadata()
+    except Exception as e:
+        st.warning(f"PDF metadata could not be loaded: {e}")
+        
     # Evidence source breakdown
     st.subheader("📄 Evidence Source Analysis")
     
@@ -289,10 +294,17 @@ def create_evidence_provenance():
             st.metric("Total Size (MB)", f"{total_size_mb:.1f}")
     
     with col2:
-        if seized_df is not None:
+        try:
+            seized_df = load_seized_properties_data()
             st.metric("Seized Properties", len(seized_df))
-        if damage_df is not None:
+        except Exception as e:
+            st.warning(f"Couldn not load seized properties data : {e}")
+            
+        try:
+            damage_df = load_damage_assessment_data()
             st.metric("Damage Records", len(damage_df))
+        except Exception as e:
+            st.warning(f"Couldn not load damage assessment data : {e}")
     
     # Document integrity verification
     st.subheader("🔐 Document Integrity Verification")
@@ -317,47 +329,47 @@ def create_evidence_provenance():
 def create_cross_dataset_correlation():
     """Create cross-dataset correlation analysis"""
     st.header("🔗 Cross-Dataset Correlation Analysis")
-    
-    seized_df, damage_df, pdf_df = load_forensic_data()
-    
     # Address matching across datasets
     st.subheader("🏠 Address Correlation Across Evidence Sources")
     
-    if seized_df is not None and damage_df is not None:
-        # Find common addresses using the toponymic lookup service
-        try:
-            with ToponymicLookup() as lookup:
-                # Sample analysis of address overlap
-                seized_addresses = seized_df.get('orig_address_ru', pd.Series()).dropna().unique()[:100]  # Limit for performance
-                damage_addresses = damage_df.get('address', pd.Series()).dropna().unique()[:100]
+    try:
+        seized_df = load_seized_properties_data()
+        damage_df = load_damage_assessment_data()
+
+        with ToponymicLookup() as lookup:
+            # Sample analysis of address overlap
+            seized_addresses = seized_df.get('orig_address_ru', pd.Series()).dropna().unique()[:100]  # Limit for performance
+            damage_addresses = damage_df.get('address', pd.Series()).dropna().unique()[:100]
+            
+            matches = 0
+            for addr in seized_addresses:
+                variants = lookup.get_all_variants(str(addr), include_fuzzy=True)
+                variant_names = [v.name_text.lower() for v in variants]
                 
-                matches = 0
-                for addr in seized_addresses:
-                    variants = lookup.get_all_variants(str(addr), include_fuzzy=True)
-                    variant_names = [v.name_text.lower() for v in variants]
-                    
-                    for damage_addr in damage_addresses:
-                        if str(damage_addr).lower() in variant_names:
-                            matches += 1
-                            break
-                
-                match_rate = (matches / len(seized_addresses)) * 100 if len(seized_addresses) > 0 else 0
-                
-                col1, col2, col3 = st.columns(3)
-                with col1:
-                    st.metric("Seized Addresses", len(seized_addresses))
-                with col2:
-                    st.metric("Damage Addresses", len(damage_addresses))
-                with col3:
-                    st.metric("Match Rate", f"{match_rate:.1f}%")
-                
-                if match_rate > 0:
-                    st.success(f"✅ Found {matches} address matches between seized properties and damage assessments.")
-                else:
-                    st.info("ℹ️ No direct address matches found. This may indicate different address formats or coverage areas.")
-        
-        except Exception as e:
-            st.error(f"Cross-dataset correlation failed: {e}")
+                for damage_addr in damage_addresses:
+                    if str(damage_addr).lower() in variant_names:
+                        matches += 1
+                        break
+            
+            match_rate = (matches / len(seized_addresses)) * 100 if len(seized_addresses) > 0 else 0
+            
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("Seized Addresses", len(seized_addresses))
+            with col2:
+                st.metric("Damage Addresses", len(damage_addresses))
+            with col3:
+                st.metric("Match Rate", f"{match_rate:.1f}%")
+            
+            if match_rate > 0:
+                st.success(f"✅ Found {matches} address matches between seized properties and damage assessments.")
+            else:
+                st.info("ℹ️ No direct address matches found. This may indicate different address formats or coverage areas.")
+    except FileNotFoundError as e:
+        st.error(f"Could not perform cross-dataset correlation. Required data file is missing: {e.filename}")
+    except Exception as e:
+        st.error(f"Cross-dataset correlation failed: {e}")
+
 
 def main():
     """Main dashboard application"""

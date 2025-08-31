@@ -68,7 +68,12 @@ services:
     volumes:
       - ./analysis/geojson_to_csv.py:/app/analysis/geojson_to_csv.py:ro
       - ./data/processed:/app/data/processed:rw
-    command: ["python", "analysis/geojson_to_csv.py", "data/processed/seized_properties_combined.geojson"]
+    command:
+      - "python"
+      - "analysis/geojson_to_csv.py"
+      - "data/processed/seized_properties_combined.geojson"
+      - "data/processed/mariupol_prewar_structures.geojson"
+      - "data/processed/mariupol_current_structures.geojson"
 
   # Forensic Analytics Platform
   forensic-analytics:

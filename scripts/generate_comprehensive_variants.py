@@ -5,10 +5,9 @@ Implements comprehensive transliteration and normalization for Ukrainian/Russian
 Based on Opus research report recommendations
 """
 
-import os
-import sys
 import json
 import re
+import pandas as pd
 from typing import Dict, List, Set, Optional
 from pathlib import Path
 import logging
@@ -20,11 +19,14 @@ logger = logging.getLogger(__name__)
 
 class ForensicVariantGenerator:
     """Generates comprehensive address variants for forensic toponymic matching"""
+
+    def _create_variants_dir(self):
+        self.variants_dir.mkdir(parents=True, exist_ok=True)
     
     def __init__(self):
         self.project_root = Path(PROJECT_ROOT)
         self.variants_dir = self.project_root / 'data' / 'processed' / 'address_variants'
-        self.variants_dir.mkdir(parents=True, exist_ok=True)
+        self._create_variants_dir()
         
         # Ukrainian-specific transliteration rules (DSTU 9112:2021)
         self.uk_to_en_map = {
@@ -121,7 +123,7 @@ class ForensicVariantGenerator:
     
     def generate_abbreviation_variants(self, address: str, language: str) -> List[str]:
         """Generate abbreviation variants for street types"""
-        variants = [address]
+        variants = {address,}
         address_lower = address.lower()
         
         for full_form, abbrevs in self.street_abbreviations.items():
@@ -134,17 +136,17 @@ class ForensicVariantGenerator:
                         address_lower, 
                         flags=re.IGNORECASE
                     )
-                    variants.append(variant.title())
+                    variants.add(variant.title())
                     
                     # Also try with different capitalization
-                    variants.append(variant.upper())
-                    variants.append(variant.lower())
+                    variants.add(variant.upper())
+                    variants.add(variant.lower())
         
-        return list(set(variants))
+        return list(variants)
     
     def generate_number_variants(self, address: str) -> List[str]:
         """Generate number format variants"""
-        variants = [address]
+        variants = {address,}
         
         # Extract numbers and generate variants
         for pattern in self.number_patterns:
@@ -164,13 +166,13 @@ class ForensicVariantGenerator:
                     
                     for num_var in number_variants:
                         variant = address.replace(match, num_var)
-                        variants.append(variant)
+                        variants.add(variant)
         
-        return list(set(variants))
+        return list(variants)
     
     def generate_building_designator_variants(self, address: str) -> List[str]:
         """Generate building designator variants"""
-        variants = [address]
+        variants = {address,}
         address_lower = address.lower()
         
         for full_form, abbrevs in self.building_designators.items():
@@ -182,9 +184,9 @@ class ForensicVariantGenerator:
                         address_lower,
                         flags=re.IGNORECASE
                     )
-                    variants.append(variant.title())
+                    variants.add(variant.title())
         
-        return list(set(variants))
+        return list(variants)
     
     def generate_comprehensive_variants(self, base_address: str, street_name: str, building_number: str) -> Dict[str, List[str]]:
         """Generate comprehensive variants for all languages"""
@@ -221,6 +223,7 @@ class ForensicVariantGenerator:
         
         return variants
     
+    # FIXME: not very useful, just a bunch of hard-coded variants
     def convert_russian_to_ukrainian_street(self, russian_street: str) -> str:
         """Convert Russian street names to Ukrainian equivalents"""
         # Common Russian-Ukrainian street name conversions

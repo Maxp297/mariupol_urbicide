@@ -49,6 +49,11 @@ source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
+### Testing
+
+There are some tests in the `tests` folder
+that can be run with a simple invocation of `pytest` from project root
+
 ### Service Architecture
 
 | Service      | Description                                 |

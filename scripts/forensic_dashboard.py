@@ -224,6 +224,7 @@ def create_address_analysis():
         except Exception as e:
             st.error(f"Address lookup failed: {e}")
 
+
 def create_network_analysis():
     """Create network analysis of administrative relationships"""
     st.header("🕸️ Administrative Network Analysis")
@@ -267,10 +268,11 @@ def create_network_analysis():
             fig.update_layout(xaxis_tickangle=-45)
             st.plotly_chart(fig, use_container_width=True)
     
-    except FileNotFoundError:
-        st.warning("Actor network data not available. Run actor extraction scripts first.")
+    except FileNotFoundError as e:
+        st.warning(f"Actor network data not available: {e.filename}. Run actor extraction scripts first.")
     except Exception as e:
         st.error(f"An unexpected error occurred during network analysis: {e}")
+
 
 def create_evidence_provenance():
     """Create evidence provenance and chain-of-custody tracking"""
@@ -304,7 +306,7 @@ def create_evidence_provenance():
             damage_df = load_damage_assessment_data()
             st.metric("Damage Records", len(damage_df))
         except Exception as e:
-            st.warning(f"Couldn not load damage assessment data : {e}")
+            st.warning(f"Could not load damage assessment data : {e}")
     
     # Document integrity verification
     st.subheader("🔐 Document Integrity Verification")
@@ -325,6 +327,7 @@ def create_evidence_provenance():
                           title='Document Size Distribution')
         fig.update_xaxis(title='File Size (bytes)')
         st.plotly_chart(fig, use_container_width=True)
+
 
 def create_cross_dataset_correlation():
     """Create cross-dataset correlation analysis"""

@@ -12,12 +12,9 @@ Usage:
     matches = lookup.fuzzy_match("Morskoy Boulevard 46", threshold=0.8)
 """
 
-import os
 import sys
 import logging
-import json
-from pathlib import Path
-from typing import List, Dict, Optional, Tuple, Set
+from typing import List, Dict, Optional, Tuple
 from dataclasses import dataclass
 from datetime import datetime
 import psycopg2
@@ -344,7 +341,7 @@ if __name__ == "__main__":
     with ToponymicLookup() as lookup:
         # Get statistics
         stats = lookup.get_statistics()
-        print(f"📊 Database Statistics:")
+        print("📊 Database Statistics:")
         print(f"   Total Streets: {stats.get('total_streets', 0)}")
         print(f"   Total Variants: {stats.get('total_variants', 0)}")
         print(f"   Languages: {stats.get('by_language', {})}")

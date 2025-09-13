@@ -7,15 +7,14 @@ This script shows common integration patterns and can be used to retrofit existi
 to automatically consult the forensic database for address variants.
 """
 
-import os
 import sys
 import pandas as pd
 from pathlib import Path
-from typing import List, Dict, Set
+from typing import List, Dict
 import logging
 from config import PROJECT_ROOT
 
-from scripts.toponymic_lookup_service import ToponymicLookup, get_address_variants, normalize_address
+from scripts.toponymic_lookup_service import ToponymicLookup, get_address_variants
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -313,7 +312,7 @@ if __name__ == "__main__":
     try:
         with ToponymicLookup() as lookup:
             stats = lookup.get_statistics()
-            print(f"✅ Database connected successfully")
+            print("✅ Database connected successfully")
             print(f"📊 {stats.get('total_streets', 0)} streets, {stats.get('total_variants', 0)} variants")
             print()
     except Exception as e:

@@ -12,11 +12,11 @@ import csv
 import hashlib
 import pandas as pd
 import psycopg2
-from psycopg2.extras import RealDictCursor, execute_values
+from psycopg2.extras import execute_values
 from datetime import datetime, timezone
 import logging
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 import uuid
 from config import db_config, PROJECT_ROOT
 # Add project root to path

@@ -1,5 +1,4 @@
 import os
-import re
 import fileinput
 
 def update_imports():

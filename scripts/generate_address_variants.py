@@ -1,6 +1,6 @@
 import json
 import os
-from typing import List, Dict
+from typing import List
 
 ADDRESS_VARIANT_DIR = os.path.join(os.path.dirname(__file__), '..', 'data', 'processed', 'address_variants')
 os.makedirs(ADDRESS_VARIANT_DIR, exist_ok=True)

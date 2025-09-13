@@ -5,15 +5,14 @@ Optimized for Ukrainian/Russian Cyrillic text matching using RapidFuzz
 Based on Opus research report recommendations
 """
 
-import os
 import sys
 import json
 import re
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Optional
 from pathlib import Path
 import logging
 import pandas as pd
-from rapidfuzz import fuzz, process, utils
+from rapidfuzz import fuzz
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from config import db_config, PROJECT_ROOT

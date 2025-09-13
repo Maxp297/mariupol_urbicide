@@ -8,7 +8,7 @@ Based on Opus research report recommendations
 import json
 import re
 import pandas as pd
-from typing import Dict, List, Set, Optional
+from typing import Dict, List, Optional
 from pathlib import Path
 import logging
 from config import PROJECT_ROOT

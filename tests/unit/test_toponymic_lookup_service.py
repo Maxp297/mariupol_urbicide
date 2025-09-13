@@ -46,25 +46,37 @@ def test_normalize_address(mocked_lookup):
         # highest confidence
         assert normalized == 'проспект Миру'
 
-def test_fuzzy_match(mocked_lookup):
-    lookup, mock_cursor = mocked_lookup
-    mock_db_data = [
-        {'name_text': 'проспект Миру', 'language_code': 'uk', 'script_code': 'Cyrl', 'administrative_period': 'pre-war', 'confidence_score': 0.9, 'source_document': '', 'evidence_type': '', 'metadata': {}},
-        {'name_text': 'проспект Металлургов', 'language_code': 'ru', 'script_code': 'Cyrl', 'administrative_period': 'soviet', 'confidence_score': 0.8, 'source_document': '', 'evidence_type': '', 'metadata': {}},
-        {'name_text': 'вулиця Зелінського', 'language_code': 'uk', 'script_code': 'Cyrl', 'administrative_period': 'pre-war', 'confidence_score': 0.9, 'source_document': '', 'evidence_type': '', 'metadata': {}},
-        {'name_text': 'проспект Мира', 'language_code': 'ru', 'script_code': 'Cyrl', 'administrative_period': 'occupation', 'confidence_score': 0.85, 'source_document': '', 'evidence_type': '', 'metadata': {}},
+MOCK_DB_CANDIDATES = [
+    {'name_text': 'проспект Миру', 'language_code': 'uk', 'script_code': 'Cyrl', 'administrative_period': 'pre-war', 'confidence_score': 0.9, 'source_document': '', 'evidence_type': '', 'metadata': {}},
+    {'name_text': 'проспект Металлургов', 'language_code': 'ru', 'script_code': 'Cyrl', 'administrative_period': 'soviet', 'confidence_score': 0.8, 'source_document': '', 'evidence_type': '', 'metadata': {}},
+    {'name_text': 'вулиця Зелінського', 'language_code': 'uk', 'script_code': 'Cyrl', 'administrative_period': 'pre-war', 'confidence_score': 0.9, 'source_document': '', 'evidence_type': '', 'metadata': {}},
+    {'name_text': 'проспект Мира', 'language_code': 'ru', 'script_code': 'Cyrl', 'administrative_period': 'occupation', 'confidence_score': 0.85, 'source_document': '', 'evidence_type': '', 'metadata': {}},
+]
+
+@pytest.mark.parametrize(
+    "search_term, threshold, limit, mock_db_data, expected_names",
+    [
+        ("Проспект Мир", 0.8, 5, MOCK_DB_CANDIDATES, ['проспект Миру', 'проспект Мира']),
+        ("Проспект Мир", 0.8, 1, MOCK_DB_CANDIDATES, ['проспект Миру']),
+        ("Проспект Мир", 0.98, 5, MOCK_DB_CANDIDATES, []),
+        ("any address", 0.8, 5, [], []),
+    ],
+    ids=[
+        "finds_and_sorts",
+        "respects_limit",
+        "respects_threshold",
+        "no_db_candidates"
     ]
+)
+def test_fuzzy_match(mocked_lookup, search_term, threshold, limit, mock_db_data, expected_names):
+    lookup, mock_cursor = mocked_lookup
     mock_cursor.fetchall.return_value = mock_db_data
 
-    matches = lookup.fuzzy_match("Проспект Мир", threshold=0.8, limit=5)
+    matches = lookup.fuzzy_match(search_term, threshold=threshold, limit=limit)
 
-    assert len(matches) == 2
-    assert isinstance(matches[0][0], AddressVariant)
-    assert isinstance(matches[0][1], float)
-    # Check sorting
-    assert matches[0][0].name_text == 'проспект Миру'
-    assert matches[1][0].name_text == 'проспект Мира'
-    assert matches[0][1] >= matches[1][1]
+    result_names = [variant.name_text for variant, _ in matches]
+
+    assert result_names == expected_names
 
 
 def test_get_statistics(mocked_lookup):

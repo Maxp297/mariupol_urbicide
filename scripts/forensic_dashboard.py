@@ -11,19 +11,11 @@ Features:
 - Evidence provenance tracking
 """
 
+from pathlib import Path
 import streamlit as st
 import pandas as pd
-import numpy as np
 import plotly.express as px
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
-import folium
-from streamlit_folium import st_folium
 import networkx as nx
-from datetime import datetime, timedelta
-import json
-import sys
-from pathlib import Path
 from config import PROJECT_ROOT
 
 from scripts.toponymic_lookup_service import ToponymicLookup
@@ -240,7 +232,6 @@ def create_network_analysis():
         G = nx.Graph()
         
         # Add nodes and edges based on document co-occurrence
-        actor_pairs = []
         for _, row in actors_df.iterrows():
             if pd.notna(row.get('role')) and pd.notna(row.get('name')):
                 G.add_node(row['name'], role=row['role'])
@@ -412,8 +403,8 @@ def main():
             st.sidebar.info(f"Variants: {db_stats.get('total_variants', 0)}")
         else:
             st.sidebar.error("❌ Database Disconnected")
-    except:
-        st.sidebar.error("❌ Database Error")
+    except Exception as e:
+        st.sidebar.error(f"❌ Database Error: {e}")
     
     # Route to selected analysis
     if analysis_type == "📊 Overview Dashboard":
